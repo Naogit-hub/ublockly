@@ -25,6 +25,7 @@
     "LIST": "Lists",
     "COLOR": "Color",
     "COROUTINE": "Coroutines",
+	"OBJECT": "Object",
     
 	"VARIABLES_DEFAULT_NAME": "項目",
 	"UNNAMED_KEY": "名前なし",
