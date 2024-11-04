@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: f14c0b01fa8adec4a9379b5e0da839db
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - blocklyCanvas: {fileID: 5156649196581526555, guid: 4deca654632f1934dbbd4745cdb43587,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

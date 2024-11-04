@@ -11,7 +11,13 @@ namespace UBlockly
     {
         protected override IEnumerator Execute(Block block)
         {
-            yield return null;
+            // if(BlocklyCanvasController.instance.p_object is null)
+            // {
+            //     Debug.Log("NULL");
+            //     yield return null;
+            // }
+            Tmp tmp = GameObject.Find("TMP").GetComponent<Tmp>();
+            yield return tmp.p.MoveForword();
             // yield return MazeController.Instance.DoMoveForward();
         }
     }

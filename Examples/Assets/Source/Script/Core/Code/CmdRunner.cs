@@ -37,6 +37,7 @@ namespace UBlockly
             if (call is CmdEnumerator)
             {
                 Debug.Log(">>>>>enter + " + ((CmdEnumerator) call).Block.Type);
+                // Debug.Log("------====------");　高頻度で呼ばれる
                 CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.RunBlock, ((CmdEnumerator) call).Block));
             }
         }
@@ -164,6 +165,7 @@ namespace UBlockly
                     if (next != null)
                     {
                         PushCall(next);
+                        // Debug.Log("CmdPushCall");  あまり呼び出されていない？
                     }
 
                     if (RunMode == Runner.Mode.Step)
