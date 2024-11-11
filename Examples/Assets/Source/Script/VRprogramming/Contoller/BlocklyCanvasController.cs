@@ -19,7 +19,6 @@ public class BlocklyCanvasController : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    // Start is called before the first frame update
     void Start()
     {
         Debug.Log("name: " + p_object.name);
@@ -31,9 +30,4 @@ public class BlocklyCanvasController : MonoBehaviour
     {
 
     }
-
-    // public Canvas getCanvas()
-    // {
-    //     return blocklyCanvas;
-    // }
 }
