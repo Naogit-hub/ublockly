@@ -10,6 +10,8 @@
     "COLOR": "Color",
     "COROUTINE": "Coroutines",
     "OBJECT": "Object",
+
+    "OBJECT_MOVE_FORWARD": "前に移動させる",
     
     /// default name - A simple: general default name for a variable: preferably short.
     "VARIABLES_DEFAULT_NAME": "item",

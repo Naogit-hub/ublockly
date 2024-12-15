@@ -1,8 +1,88 @@
 [
   {
     "type": "object_move",
-    "message0": "%{BKY_OBJECT_MOVE_FORWARD}",
+    "message0": "%1 軸方向に %2 だけ移動させる",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "axis",
+        "options": [
+          ["X",1],
+          ["Y",2],
+          ["Z",3]
+        ]
+      },
+      {
+        "type": "input_value",
+        "name": "transfer_amount",
+        "check": "Number",
+        "value": 0
+      }
+    ],
     "previousStatement": null,
     "nextStatement": null
+  },
+
+  {
+    "type": "object_rotate",
+    "message0": "オブジェクトを %1 軸を中心に %2 だけ回転させる",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "axis",
+        "options": [
+          ["X",1],
+          ["Y",2],
+          ["Z",3]
+        ]
+      },
+      {
+        "type": "field_number",
+        "name": "rotation_amount",
+        "value": 0
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null
+  },
+
+  {
+    "type": "object_color",
+    "message0": "オブジェクトの色を %1 に変更する",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "color",
+        "check": "Colour"
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null
+  },
+
+  {
+    "type": "object_scale",
+    "message0": "オブジェクトの大きさを %1 倍する",
+    "args0":[
+      {
+        "type": "input_value",
+        "name": "scale_amount",
+        "value": 1
+      }
+    ],
+    "previousStatement":null,
+    "nextStatement":null
+  },
+
+  {
+    "type": "object_get",
+    "message0": "オブジェクトを取得する",
+    "output": "Object"
+  },
+
+  {
+    "type": "object_search",
+    "message0": "オブジェクトを探知する",
+    "output": "Object"
   }
 ]
