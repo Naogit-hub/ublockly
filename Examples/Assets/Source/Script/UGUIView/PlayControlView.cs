@@ -19,7 +19,7 @@ namespace UBlockly.UGUI
         [SerializeField] private GameObject m_prefabCallstackText;
 
         private WorkspaceView mWorkspaceView;
-        
+
         private RunnerUpdateStateObserver mObserver;
 
         public void Init(WorkspaceView workspaceView)
@@ -27,14 +27,14 @@ namespace UBlockly.UGUI
             mWorkspaceView = workspaceView;
             mObserver = new RunnerUpdateStateObserver(this);
             CSharp.Runner.AddObserver(mObserver);
-            
+
             m_BtnRun.onClick.AddListener(OnRun);
             m_BtnPause.onClick.AddListener(OnPause);
             m_BtnStop.onClick.AddListener(OnStop);
             m_BtnStep.onClick.AddListener(OnStep);
 
             m_ToggleNormal.isOn = true;
-            SetMode(Runner.Mode.Normal);            
+            SetMode(Runner.Mode.Normal);
             m_ToggleNormal.onValueChanged.AddListener(on => SetMode(Runner.Mode.Normal));
             m_ToggleDebug.onValueChanged.AddListener(on => SetMode(Runner.Mode.Step));
 
@@ -54,7 +54,7 @@ namespace UBlockly.UGUI
         public void Reset()
         {
             OnStop();
-            
+
             m_ToggleNormal.onValueChanged.RemoveAllListeners();
             m_ToggleDebug.onValueChanged.RemoveAllListeners();
             m_BtnRun.onClick.RemoveAllListeners();
@@ -62,7 +62,7 @@ namespace UBlockly.UGUI
             m_BtnStop.onClick.RemoveAllListeners();
             m_BtnStep.onClick.RemoveAllListeners();
             m_ToggleCallstack.onValueChanged.RemoveAllListeners();
-            
+
             CSharp.Runner.RemoveObserver(mObserver);
         }
 
@@ -81,7 +81,7 @@ namespace UBlockly.UGUI
                 Debug.Log("<color=red> Switch Mode is not supported when code is running</color>");
                 return;
             }
-            
+
             CSharp.Runner.SetMode(mode);
 
             if (mode == Runner.Mode.Normal)
@@ -103,11 +103,12 @@ namespace UBlockly.UGUI
         }
 
         private void OnRun()
-        {            
+        {
             m_BtnRun.gameObject.SetActive(false);
             m_BtnPause.gameObject.SetActive(true);
             EnableSettings(false);
 
+            // Debug.Log("CSharp.Runner.CurStatus: " + CSharp.Runner.CurStatus);
             if (CSharp.Runner.CurStatus == Runner.Status.Stop)
             {
                 CSharp.Runner.Run(mWorkspaceView.Workspace);
@@ -155,13 +156,13 @@ namespace UBlockly.UGUI
         private void ShowCallstack()
         {
             m_PanelCallstack.SetActive(true);
-            
+
             Transform parent = m_prefabCallstackText.transform.parent;
             foreach (Transform child in parent)
             {
                 child.gameObject.SetActive(false);
             }
-            
+
             List<string> callstack = CSharp.Runner.GetCallStack();
             if (callstack == null)
                 return;
@@ -225,7 +226,7 @@ namespace UBlockly.UGUI
                     break;
             }
         }
-        
+
         private class RunnerUpdateStateObserver : IObserver<RunnerUpdateState>
         {
             private PlayControlView mView;

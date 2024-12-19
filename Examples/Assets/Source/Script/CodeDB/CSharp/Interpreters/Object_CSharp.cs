@@ -15,7 +15,7 @@ namespace UBlockly
         protected override IEnumerator Execute(Block block)
         {
             
-            yield return GameManager.curObject.MoveForword();
+            yield return GameManager.curObject.MoveForword(2);
         }
     }
 

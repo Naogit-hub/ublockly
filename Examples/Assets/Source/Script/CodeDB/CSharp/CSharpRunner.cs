@@ -54,9 +54,11 @@ namespace UBlockly
             if (workspace.Options.Synchronous)
             {
                 RunSync(blocks);
+                Debug.Log("Sync");
             }
             else
             {
+                Debug.Log("Async");
                 RunAsync(blocks);
             }
         }

@@ -2,39 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ProgrammableObject : MonoBehaviour
+public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
 {
-    private Rigidbody rb;
+    protected Rigidbody rb;
+
+    protected Transform tr;
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
+        tr = rb.transform;
     }
 
-    public void ShowWorkSpace()
-    {
-
-    }
-
-    // public IEnumerator MoveForword()
-    // {
-    //     float second = 0;
-
-    //     // rb.transform.Translate(0.1f, 0, 0);
-
-    //     // while (second < Time.deltaTime * GameManager.flameRate)
-    //     // {
-    //     //     rb.transform.Translate(0.001f, 0, 0);
-    //     //     second += Time.deltaTime;
-    //     // }
-
-    //     Vector3 curPos = rb.transform.position;
-    //     curPos.x += 1f;
-    //     Vector3.Lerp(rb.transform.position, curPos, );
-
-    //     yield return null;
-    // }
-
-    public IEnumerator MoveForword()
+    /// <summary>
+    /// オブジェクトを前方に動かす
+    /// </summary>
+    /// <param name="num">オブジェクトの移動量</param>
+    /// <returns></returns>
+    public virtual IEnumerator MoveForword(int num)
     {
         float elapsedTime = 0f; // 経過時間のカウンター
         float duration = 1f;
@@ -59,8 +43,12 @@ public class ProgrammableObject : MonoBehaviour
         transform.position = end;
     }
 
-    /* オブジェクトのスケールを全体的にnum倍する */
-    public IEnumerator ChangeScale(int num)
+    /// <summary>
+    /// オブジェクトのスケールを変更する
+    /// </summary>
+    /// <param name="num">何倍するか</param>
+    /// <returns></returns>
+    public virtual IEnumerator ChangeScale(int num)
     {
         // Vector3 curScale = rb.transform.localScale;
         // rb.transform.localScale = new Vector3(curScale.x * num, curScale.y * num, curScale.z * num);
@@ -91,7 +79,13 @@ public class ProgrammableObject : MonoBehaviour
         transform.localScale = end;
     }
 
-    public IEnumerator ChangeRotate(int axis, float num)
+    /// <summary>
+    /// オブジェクトを回転させる
+    /// </summary>
+    /// <param name="axis">回転の軸</param>
+    /// <param name="num">回転量</param>
+    /// <returns></returns>
+    public virtual IEnumerator ChangeRotate(int axis, float num)
     {
         // ワールド座標を基準に、回転を取得
         Vector3 worldAngle = rb.transform.eulerAngles;
@@ -120,4 +114,23 @@ public class ProgrammableObject : MonoBehaviour
     {
         GameManager.RegisterObject(this);
     }
+
+    public void ShowWorkspace()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void DeleteWorkspace()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void Reset()
+    {
+        //元の位置・大きさに戻る
+        rb.transform.position = tr.position;
+        rb.transform.localScale = tr.localScale;
+        rb.transform.eulerAngles = tr.eulerAngles;
+    }
+
 }

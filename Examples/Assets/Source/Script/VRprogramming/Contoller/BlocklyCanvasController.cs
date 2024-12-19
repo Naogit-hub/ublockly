@@ -19,15 +19,4 @@ public class BlocklyCanvasController : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-    void Start()
-    {
-        Debug.Log("name: " + p_object.name);
-        // blocklyCanvas.gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
