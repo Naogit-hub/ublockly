@@ -10,15 +10,17 @@ public class TaskObject : ProgrammableObject
     public const float SQUARE_SIZE = 10f;
     protected int taskNum;
 
-    public override IEnumerator MoveForword(int num)
+    public override IEnumerator MoveForword(float amount)
     {
         float elapsedTime = 0f; // 経過時間のカウンター
-        float duration = 1f * num;  
+        float duration = 1f; //実行時間
 
         Vector3 start = rb.transform.position;
         Vector3 end = rb.transform.position;
-        end.x += num * SQUARE_SIZE;
+        end.z += amount;
 
+
+        Debug.Log("amount: " + amount);
         while (elapsedTime < duration)
         {
             // 線形補間で現在の位置を計算

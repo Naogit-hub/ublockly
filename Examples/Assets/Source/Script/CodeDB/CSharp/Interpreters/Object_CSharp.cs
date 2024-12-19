@@ -14,8 +14,25 @@ namespace UBlockly
     {
         protected override IEnumerator Execute(Block block)
         {
-            
-            yield return GameManager.curObject.MoveForword(2);
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0));
+            yield return ctor;
+            DataStruct arg0 = ctor.Data;
+
+            yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
+        }
+    }
+
+    /* オブジェクトを回転させる */
+    [CodeInterpreter(BlockType = "object_rotate")]
+    public class Object_Rotate_cmdtor : EnumeratorCmdtor
+    {
+        protected override IEnumerator Execute(Block block)
+        {
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0));
+            yield return ctor;
+            DataStruct arg0 = ctor.Data;
+
+            yield return GameManager.instance.curObject.ChangeRotate(arg0.NumberValue.Value);
         }
     }
 
@@ -26,21 +43,8 @@ namespace UBlockly
         protected override IEnumerator Execute(Block block)
         {
             // throw new System.NotImplementedException();
-            Debug.Log("get: " + GameManager.GetObject(0).name);
-            yield return GameManager.GetObject(0);
-        }
-    }
-
-    /* オブジェクトを回転させる */
-    [CodeInterpreter(BlockType = "object_rotate")]
-    public class Object_Rotate_cmdtor : EnumeratorCmdtor
-    {
-        protected override IEnumerator Execute(Block block)
-        {
-            //一旦、x軸で30度回転させる.
-            // GameManager.GetObject(0).ChangeRotate(2, 30);
-            yield return GameManager.curObject.ChangeRotate(2, 30f);
-            // throw new System.NotImplementedException();
+            Debug.Log("get: " + GameManager.instance.GetObject(0).name);
+            yield return GameManager.instance.GetObject(0);
         }
     }
     /* オブジェクトの色を変える */
@@ -59,9 +63,9 @@ namespace UBlockly
         protected override IEnumerator Execute(Block block)
         {
             // 2倍する。
-            yield return GameManager.curObject.ChangeScale(2);
+            yield return GameManager.instance.curObject.ChangeScale(2);
             // throw new System.NotImplementedException();
-            
+
         }
     }
     /* オブジェクトを探知する(trigger) */

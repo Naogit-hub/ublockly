@@ -2,13 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
-public static class GameManager
+public class GameManager : MonoBehaviour
 {
-    public static List<ProgrammableObject> p_ObjectList = new List<ProgrammableObject>();
-    public static ProgrammableObject curObject = null;
-    public static float flameRate = 120;
-    public static void RegisterObject(ProgrammableObject p)
+    public static GameManager instance = null;
+    public List<ProgrammableObject> p_ObjectList = new List<ProgrammableObject>();
+    public ProgrammableObject curObject = null;
+    public float flameRate = 120;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+
+    // public static Camera camera;
+    public void RegisterObject(ProgrammableObject p)
     {
         // Debug.Log(p.name); 
         p_ObjectList.Add(p);
@@ -25,10 +41,9 @@ public static class GameManager
         // writer.Close();
     }
 
-    public static ProgrammableObject GetObject(int num)
+    public ProgrammableObject GetObject(int num)
     {
         curObject = p_ObjectList[num];
         return curObject;
     }
-
 }

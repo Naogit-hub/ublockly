@@ -12,7 +12,7 @@ public class Preview : MonoBehaviour
         if (parent.transform.childCount > 0)
         {
             Destroy(parent.transform.GetChild(0));
-            var obj = Instantiate(GameManager.curObject, parent.transform.position, Quaternion.identity, parent.transform);
+            var obj = Instantiate(GameManager.instance.curObject, parent.transform.position, Quaternion.identity, parent.transform);
             obj.transform.localScale = new Vector3(1.2f, 0.042f, 0.03f);
         }
     }

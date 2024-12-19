@@ -1,22 +1,12 @@
 [
   {
     "type": "object_move",
-    "message0": "%1 軸方向に %2 だけ移動させる",
+    "message0": "オブジェクトを %1 だけ移動させる",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "axis",
-        "options": [
-          ["X",1],
-          ["Y",2],
-          ["Z",3]
-        ]
-      },
-      {
         "type": "input_value",
-        "name": "transfer_amount",
-        "check": "Number",
-        "value": 0
+        "name": "amount",
+        "check": "Number"
       }
     ],
     "previousStatement": null,
@@ -25,21 +15,12 @@
 
   {
     "type": "object_rotate",
-    "message0": "オブジェクトを %1 軸を中心に %2 だけ回転させる",
+    "message0": "オブジェクトを %1 だけ回転させる",
     "args0": [
       {
-        "type": "field_dropdown",
-        "name": "axis",
-        "options": [
-          ["X",1],
-          ["Y",2],
-          ["Z",3]
-        ]
-      },
-      {
-        "type": "field_number",
-        "name": "rotation_amount",
-        "value": 0
+        "type": "input_value",
+        "name": "amount",
+        "check": "Number"
       }
     ],
     "previousStatement": null,

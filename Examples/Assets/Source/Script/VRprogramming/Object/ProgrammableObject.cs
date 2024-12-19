@@ -7,6 +7,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     protected Rigidbody rb;
 
     protected Transform tr;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -16,17 +17,18 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     /// <summary>
     /// オブジェクトを前方に動かす
     /// </summary>
-    /// <param name="num">オブジェクトの移動量</param>
+    /// <param name="amount">オブジェクトの移動量</param>
     /// <returns></returns>
-    public virtual IEnumerator MoveForword(int num)
+    public virtual IEnumerator MoveForword(float amount)
     {
         float elapsedTime = 0f; // 経過時間のカウンター
-        float duration = 1f;
+        float duration = amount * 0.7f; //実行時間
 
         Vector3 start = rb.transform.position;
-        Vector3 end = rb.transform.position;
-        end.x += 1f;
+        Vector3 end = start + transform.forward * amount;
+        // end += transform.forward * amount;
 
+        Debug.Log("amount: " + amount);
         while (elapsedTime < duration)
         {
             // 線形補間で現在の位置を計算
@@ -82,37 +84,54 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     /// <summary>
     /// オブジェクトを回転させる
     /// </summary>
-    /// <param name="axis">回転の軸</param>
-    /// <param name="num">回転量</param>
+    /// <param name="amount">回転量</param>
     /// <returns></returns>
-    public virtual IEnumerator ChangeRotate(int axis, float num)
+    public virtual IEnumerator ChangeRotate(float amount)
     {
         // ワールド座標を基準に、回転を取得
-        Vector3 worldAngle = rb.transform.eulerAngles;
-        Debug.Log("Angle: " + worldAngle);
+        Vector3 start = rb.transform.eulerAngles;
+        Vector3 end = start;
 
+        float elapsedTime = 0f; // 経過時間のカウンター
+        float duration = amount / 90f; //実行時間
+
+        // 一旦y軸中心固定
+        int axis = 2;
         switch (axis)
         {
             case 1: // x
-                worldAngle.x = worldAngle.x + num;
+                end.x += amount;
                 break;
             case 2: // y
-                worldAngle.z = worldAngle.y + num;
+                end.y += amount;
                 break;
             case 3: // z
-                worldAngle.z = worldAngle.z + num;
+                end.z += amount;
                 break;
             default:
                 break;
         }
-        Debug.Log("Angle: " + worldAngle);
-        rb.transform.eulerAngles = worldAngle; // 回転させる。
+
+
+        while (elapsedTime < duration)
+        {
+            // 線形補間で現在の位置を計算
+            transform.eulerAngles = Vector3.Lerp(start, end, elapsedTime / duration);
+
+            // 時間を更新
+            elapsedTime += Time.deltaTime;
+
+            // フレーム終了まで待機
+            yield return null;
+        }
+
+        transform.eulerAngles = end; // 回転させる。
         yield return null;
     }
 
     public void RegisterThis()
     {
-        GameManager.RegisterObject(this);
+        GameManager.instance.RegisterObject(this);
     }
 
     public void ShowWorkspace()
