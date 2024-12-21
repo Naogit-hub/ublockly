@@ -99,6 +99,24 @@ namespace UBlockly
             }
         }
 
+        private ProgrammableObject mPObjectValue;
+
+        public ProgrammableObject PObjectvalue
+        {
+            get
+            {
+                if (this.Type != Define.EDataType.ProgrammableObject)
+                    throw new Exception("try to GET a ProgrammableObject value from a not-ProgrammableObject data");
+                return mPObjectValue;
+            }
+            set
+            {
+                if (this.Type != Define.EDataType.ProgrammableObject)
+                    throw new Exception("try to SET a ProgrammableObject value from a not-ProgrammableObject data");
+                mPObjectValue = value;
+            }
+        }
+
         public DataStruct(bool booleanValue)
         {
             this.Type = Define.EDataType.Boolean;
@@ -106,6 +124,8 @@ namespace UBlockly
             this.mNumberValue = Number.NaN;
             this.mStringValue = null;
             this.mListValue = null;
+
+            this.mPObjectValue = null;
         }
 
         public DataStruct(Number numberValue)
@@ -115,6 +135,9 @@ namespace UBlockly
             this.mNumberValue = numberValue;
             this.mStringValue = null;
             this.mListValue = null;
+
+            this.mPObjectValue = null;
+
         }
 
         public DataStruct(int intValue)
@@ -124,8 +147,10 @@ namespace UBlockly
             this.mNumberValue = new Number(intValue);
             this.mStringValue = null;
             this.mListValue = null;
+
+            this.mPObjectValue = null;
         }
-        
+
         public DataStruct(float floatValue)
         {
             this.Type = Define.EDataType.Number;
@@ -133,8 +158,10 @@ namespace UBlockly
             this.mNumberValue = new Number(floatValue);
             this.mStringValue = null;
             this.mListValue = null;
+
+            this.mPObjectValue = null;
         }
-        
+
         public DataStruct(double doubleValue)
         {
             this.Type = Define.EDataType.Number;
@@ -142,6 +169,8 @@ namespace UBlockly
             this.mNumberValue = new Number(doubleValue);
             this.mStringValue = null;
             this.mListValue = null;
+
+            this.mPObjectValue = null;
         }
 
         public DataStruct(string stringValue)
@@ -151,8 +180,10 @@ namespace UBlockly
             this.mNumberValue = Number.NaN;
             this.mStringValue = stringValue;
             this.mListValue = null;
+
+            this.mPObjectValue = null;
         }
-        
+
         public DataStruct(ArrayList listValue)
         {
             this.Type = Define.EDataType.List;
@@ -160,6 +191,22 @@ namespace UBlockly
             this.mNumberValue = Number.NaN;
             this.mStringValue = null;
             this.mListValue = listValue;
+
+            this.mPObjectValue = null;
+        }
+
+        /// <summary>
+        /// PObjectのデータ
+        /// </summary>
+        public DataStruct(ProgrammableObject pobjectValue)
+        {
+            this.Type = Define.EDataType.ProgrammableObject;
+            this.mBooleanValue = false;
+            this.mNumberValue = Number.NaN;
+            this.mStringValue = null;
+            this.mListValue = null;
+
+            this.mPObjectValue = pobjectValue;
         }
 
         public static DataStruct Undefined
@@ -192,11 +239,16 @@ namespace UBlockly
             get { return Type == Define.EDataType.List; }
         }
 
+        public bool IsPObject
+        {
+            get { return Type == Define.EDataType.ProgrammableObject; }
+        }
+
         #region override
 
         public override bool Equals(object obj)
         {
-            return (obj is DataStruct) && (this == (DataStruct) obj);
+            return (obj is DataStruct) && (this == (DataStruct)obj);
         }
 
         public override string ToString()
@@ -208,16 +260,22 @@ namespace UBlockly
                 case Define.EDataType.Number: return mNumberValue.ToString();
                 case Define.EDataType.String: return mStringValue;
                 case Define.EDataType.List:
-                {
-                    StringBuilder sb = new StringBuilder();
-                    foreach (var e in mListValue)
-                        sb.Append(e);
-                    return sb.ToString();
-                }
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        foreach (var e in mListValue)
+                            sb.Append(e);
+                        return sb.ToString();
+                    }
+                case Define.EDataType.ProgrammableObject:
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append(mPObjectValue);
+                        return sb.ToString();
+                    }
                 default: return "Undefined";
             }
         }
-        
+
         public static bool operator ==(DataStruct a, DataStruct b)
         {
             if (a.Type != b.Type)
@@ -229,16 +287,17 @@ namespace UBlockly
                 case Define.EDataType.Number: return a.NumberValue == b.NumberValue;
                 case Define.EDataType.String: return a.StringValue == b.StringValue;
                 case Define.EDataType.List:
-                {
-                    if (a.ListValue.Count != b.ListValue.Count)
-                        return false;
-                    for (int i = 0; i < a.ListValue.Count; i++)
                     {
-                        if (a.ListValue[i] != b.ListValue[i])
+                        if (a.ListValue.Count != b.ListValue.Count)
                             return false;
+                        for (int i = 0; i < a.ListValue.Count; i++)
+                        {
+                            if (a.ListValue[i] != b.ListValue[i])
+                                return false;
+                        }
+                        return true;
                     }
-                    return true;
-                }
+                case Define.EDataType.ProgrammableObject: return a.PObjectvalue == b.PObjectvalue;
                 default: return false;
             }
         }
@@ -250,9 +309,9 @@ namespace UBlockly
 
 
         #endregion
-       
+
     }
-    
+
     /// <summary>
     /// hold the actual data for variables
     /// </summary>

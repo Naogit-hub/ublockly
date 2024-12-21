@@ -24,7 +24,7 @@ namespace UBlockly
 
     /* オブジェクトを回転させる */
     [CodeInterpreter(BlockType = "object_rotate")]
-    public class Object_Rotate_cmdtor : EnumeratorCmdtor
+    public class Object_Rotate_Cmdtor : EnumeratorCmdtor
     {
         protected override IEnumerator Execute(Block block)
         {
@@ -38,13 +38,11 @@ namespace UBlockly
 
     /* オブジェクトを取得する */
     [CodeInterpreter(BlockType = "object_get")]
-    public class Object_Get_cmdtor : EnumeratorCmdtor
+    public class Object_Get_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override DataStruct Execute(Block block)
         {
-            // throw new System.NotImplementedException();
-            Debug.Log("get: " + GameManager.instance.GetObject(0).name);
-            yield return GameManager.instance.GetObject(0);
+            return CSharp.VariableDatas.GetData(varName);
         }
     }
     /* オブジェクトの色を変える */

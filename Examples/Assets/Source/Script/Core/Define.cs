@@ -105,7 +105,7 @@ namespace UBlockly
             "field_label", "field_input", "field_angle", "field_checkbox", "field_colour",
             "field_variable", "field_dropdown", "field_image", "field_number", "field_date"
         };
-         
+
         /// <summary>
         /// a list of input types defined in block
         /// </summary>
@@ -113,7 +113,7 @@ namespace UBlockly
         {
             "input_value", "input_statement", "input_dummy"
         };
-        
+
         /// <summary>
         /// The custom defined datatype in blockly world
         /// </summary>
@@ -123,22 +123,28 @@ namespace UBlockly
             Boolean = 1,
             Number = 2,        //int, float...
             String = 3,
-            List = 4
+            List = 4,
+
+            /// <summary>
+            /// コード可能オブジェクト
+            /// </summary>
+            ProgrammableObject = 5,
         }
-        
+
         public static Dictionary<EDataType, string[]> DataTypeDB = new Dictionary<EDataType, string[]>()
         {
             {EDataType.Boolean, new[] {"bool", "boolean"}},
             {EDataType.Number, new[] {"float", "int", "double"}},
             {EDataType.String, new[] {"string"}},
-            {EDataType.List, new[] {"ArrayList", "list"}}
+            {EDataType.List, new[] {"ArrayList", "list"}},
+            {EDataType.ProgrammableObject, new[] {"ProgrammableObject"}},
         };
 
         /// <summary>
         /// Configure if the field variable's dropdown options add manipulation options: rename, delete.
         /// </summary>
         public const bool FIELD_VARIABLE_ADD_MANIPULATION_OPTIONS = false;
-        
+
         /// <summary>
         /// CLOCKWISE and OFFSET work together to set the behaviour of the angle picker.  
         /// While many combinations are possible, two modes are typical: 
