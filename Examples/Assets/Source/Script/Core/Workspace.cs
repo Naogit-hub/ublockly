@@ -31,7 +31,7 @@ namespace UBlockly
         /// The workspace's id
         /// </summary>
         public string Id;
-        
+
         public class WorkspaceOptions
         {
             public bool RTL = false;
@@ -42,32 +42,32 @@ namespace UBlockly
             /// </summary>
             public bool Synchronous = false;
         }
-        
+
         public WorkspaceOptions Options { get; private set; }
 
         public bool RTL
         {
             get { return Options.RTL; }
         }
-        
+
         public List<Block> TopBlocks { get; private set; }
-        public Dictionary<string,Block> BlockDB { get; private set; }
+        public Dictionary<string, Block> BlockDB { get; private set; }
         public VariableMap VariableMap { get; private set; }
         public Dictionary<Define.EConnection, ConnectionDB> ConnectionDBList { get; private set; }
         public ProcedureDB ProcedureDB { get; private set; }
-                
+
         /// <summary>
         /// Maximum number of undo events in stack. '0' turnes off udo,"Infinity" sets  it to unlimited.
         /// </summary>
         private const int MAX_UNDO = 1024;
-        
+
         /// <summary>
         /// Angle away from the horizontal to sweep for blocks.  Order of execution is
         /// generally top to bottom, but a small angle changes the scan to give a bit of
         /// a left to right bias (reversed in RTL).  Units are in degrees.
         /// </summary>
         private const int SCAN_ANGLE = 3;
-        
+
         /// <summary>
         /// Class for a workspace. This is a data structure tha contains blocks.
         /// There is no UI,and can be created headlessly.
@@ -91,6 +91,10 @@ namespace UBlockly
             else
             {
                 mWorkspaceDB.Add(Id, this);
+                foreach (KeyValuePair<string, Workspace> pair in mWorkspaceDB)
+                {
+                    Debug.Log("key: " + pair.Key + " | value: " + pair.Value);
+                }
             }
 
             Options = options ?? new WorkspaceOptions();
@@ -101,7 +105,7 @@ namespace UBlockly
             ConnectionDBList = ConnectionDB.Build();
             ProcedureDB = new ProcedureDB(this);
         }
-        
+
         /// <summary>
         /// Dispose of this workspace.
         /// Unlink from all DOM elements to prevent memory leaks.
@@ -113,19 +117,19 @@ namespace UBlockly
             // Remove from workspace database.
             mWorkspaceDB.Remove(this.Id);
         }
-        
+
         public void Clear()
         {
             while (TopBlocks.Count > 0)
             {
                 TopBlocks[TopBlocks.Count - 1].Dispose();
             }
-            
+
             VariableMap.Clear();
             ConnectionDBList.Clear();
             ProcedureDB.Clear();
         }
-        
+
         #region Blocks
 
         /// <summary>
@@ -159,7 +163,7 @@ namespace UBlockly
         {
             if (!TopBlocks.Contains(block))
                 TopBlocks.Add(block);
-            
+
             // deal with procedure blocks
             if (ProcedureDB.IsDefinition(block)) ProcedureDB.AddDefinition(block);
             else if (ProcedureDB.IsCaller(block)) ProcedureDB.AddCaller(block);
@@ -172,7 +176,7 @@ namespace UBlockly
         public void RemoveTopBlock(Block block)
         {
             TopBlocks.Remove(block);
-            
+
             // deal with procedure blocks
             if (ProcedureDB.IsDefinition(block)) ProcedureDB.RemoveDefinition(block);
             else if (ProcedureDB.IsCaller(block)) ProcedureDB.RemoveCaller(block);
@@ -197,7 +201,7 @@ namespace UBlockly
                 {
                     offset *= -1;
                 }
-                blocks.Sort(delegate(Block a, Block b)
+                blocks.Sort(delegate (Block a, Block b)
                 {
                     var aXY = a.XY;
                     var bXY = b.XY;
@@ -224,10 +228,10 @@ namespace UBlockly
         }
 
         #endregion
-        
-        
+
+
         #region Variables
-        
+
         /// <summary>
         /// Create a variable with a given name,optional type, and optional id.
         /// </summary>
@@ -251,7 +255,7 @@ namespace UBlockly
         {
             return GetVariable(name) != null;
         }
-        
+
         /// <summary>
         /// Find the variable by the given name and return it. Return null if it is not found.
         /// </summary>
@@ -260,7 +264,7 @@ namespace UBlockly
         {
             return VariableMap.GetVariable(name);
         }
-        
+
         /// <summary>
         /// Find the variable by the given id and return it. Return null if it is not found.
         /// </summary>
@@ -281,16 +285,16 @@ namespace UBlockly
             return this.VariableMap.GetVariablesOfType(type);
         }
 
-        public List<string> GetVariableTypes ()
+        public List<string> GetVariableTypes()
         {
             return VariableMap.GetVariableTypes();
         }
-        
-        public List<VariableModel> GetAllVariables ()
+
+        public List<VariableModel> GetAllVariables()
         {
             return VariableMap.GetAllVariables();
         }
-        
+
         /// <summary>
         /// Find all the uses of a named variable.
         /// </summary>
@@ -307,12 +311,12 @@ namespace UBlockly
                 if (null != blockVariables && blockVariables.Count != 0)
                 {
                     foreach (var varName in blockVariables)
-                    {    
+                    {
                         // Variable name may be null if the block is only half-built.
                         if (null != varName && null != name && Names.Equals(varName, name))
                         {
                             uses.Add(block);
-                        }   
+                        }
                     }
                 }
             }
@@ -335,8 +339,8 @@ namespace UBlockly
                 {
                     var procedureName = block.GetFieldValue("NAME");
                     Debug.LogError("Alert:" + I18n.Get(MsgDefine.CANNOT_DELETE_VARIABLE_PROCEDURE).
-                                       Replace("%1",name).
-                                       Replace("%2",procedureName));
+                                       Replace("%1", name).
+                                       Replace("%2", procedureName));
                     return;
                 }
             }
@@ -374,7 +378,7 @@ namespace UBlockly
                 Debug.LogError("Can't delete non-existant variable: " + id);
             }
         }
- 
+
         /// <summary>
         /// Deletes a variable and all of its uses from this workspace without asking the
         /// user for confirmation.
@@ -399,7 +403,7 @@ namespace UBlockly
         public void RenameVariableInternal(VariableModel variable, string newName)
         {
             var newVariable = this.GetVariable(newName);
-            
+
             // If they are different types, throw an error.
             if (null != variable && null != newVariable && !string.Equals(variable.Type, newVariable.Type))
             {
@@ -410,9 +414,9 @@ namespace UBlockly
 
             string oldName = variable != null ? variable.Name : null;
             string oldCase = newVariable != null ? newVariable.Name : null;
-            
+
             this.VariableMap.RenameVariable(variable, newName);
-            
+
             // Iterate through every block and update name.
             var blocks = this.GetAllBlocks();
             foreach (var block in blocks)
@@ -448,17 +452,17 @@ namespace UBlockly
         public void RenameVariableById(string id, string newName)
         {
             var variable = this.GetVariableById(id);
-            this.RenameVariableInternal(variable,newName);
+            this.RenameVariableInternal(variable, newName);
         }
-        
+
         /// <summary>
         /// Walk the workspace and update the map of variables to only contain ones in
         /// use on the workspace. Use when loading new workspaces from disk.
         /// </summary>
         /// <param name="clear"> True if the old variable map should be cleared.</param>
-        public void UpdateVariableStore(bool clear = false,List<string> unitTestAllUsedVariable = null)
+        public void UpdateVariableStore(bool clear = false, List<string> unitTestAllUsedVariable = null)
         {
-            var variableNames =  unitTestAllUsedVariable == null ? Variables.AllUsedVariables(this) : unitTestAllUsedVariable;
+            var variableNames = unitTestAllUsedVariable == null ? Variables.AllUsedVariables(this) : unitTestAllUsedVariable;
             var varList = new List<JObject>();
             foreach (var name in variableNames)
             {
@@ -482,15 +486,15 @@ namespace UBlockly
                     // instances are storing more than just name.
                 }
             }
-            
+
             if (clear) VariableMap.Clear();
-            
+
             // Update the list in place so that the flyout's references stay correct.
             foreach (var varDict in varList)
             {
                 if (null == this.GetVariable(varDict["name"].ToString()))
                 {
-                    this.CreateVariable(varDict["name"].ToString(),varDict["type"].ToString(),varDict["id"].ToString());
+                    this.CreateVariable(varDict["name"].ToString(), varDict["type"].ToString(), varDict["id"].ToString());
                 }
             }
         }
@@ -520,8 +524,8 @@ namespace UBlockly
                 ProcedureDB.AddCaller(block);
             }
         }
-        
-        static Dictionary<string,Workspace> mWorkspaceDB = new Dictionary<string, Workspace>();
+
+        static Dictionary<string, Workspace> mWorkspaceDB = new Dictionary<string, Workspace>();
 
         /// <summary>
         /// Find the workspace with the specified ID.

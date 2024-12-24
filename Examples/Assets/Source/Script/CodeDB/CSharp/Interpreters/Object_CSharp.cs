@@ -40,10 +40,15 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "object_get")]
     public class Object_Get_Cmdtor : EnumeratorCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override IEnumerator Execute(Block block)
         {
-            return CSharp.VariableDatas.GetData(varName);
+            yield return null;
         }
+        // protected override DataStruct Execute(Block block)
+        // {
+        //     // return CSharp.VariableDatas.GetData(varName);
+        // }
+
     }
     /* オブジェクトの色を変える */
     [CodeInterpreter(BlockType = "object_color")]

@@ -1,17 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
+using UBlockly.UGUI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
 {
+    [SerializeField]
+    private Menu menu;
+
+    private Coroutine hoverCoroutine; // ホバーを監視するコルーチン
+
     protected Rigidbody rb;
 
-    protected Transform tr;
+
+    private Vector3 initialPosition; // 初期位置
+    private Quaternion initialRotation; // 初期回転
+    private Vector3 initialScale; // 初期スケール
 
     void Start()
     {
-        rb = this.GetComponent<Rigidbody>();
-        tr = rb.transform;
+        // rb = this.GetComponent<Rigidbody>();
+
+        // 初期状態を保存
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
+        initialScale = transform.localScale;
     }
 
     /// <summary>
@@ -24,7 +38,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         float elapsedTime = 0f; // 経過時間のカウンター
         float duration = amount * 0.7f; //実行時間
 
-        Vector3 start = rb.transform.position;
+        Vector3 start = transform.position;
         Vector3 end = start + transform.forward * amount;
         // end += transform.forward * amount;
 
@@ -59,7 +73,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         float elapsedTime = 0f; // 経過時間のカウンター
         float duration = 1f;
 
-        Vector3 start = rb.transform.localScale;
+        Vector3 start = transform.localScale;
         Vector3 end = start;
         end.x *= 2;
         end.y *= 2;
@@ -89,7 +103,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     public virtual IEnumerator ChangeRotate(float amount)
     {
         // ワールド座標を基準に、回転を取得
-        Vector3 start = rb.transform.eulerAngles;
+        Vector3 start = transform.eulerAngles;
         Vector3 end = start;
 
         float elapsedTime = 0f; // 経過時間のカウンター
@@ -134,22 +148,87 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         GameManager.instance.RegisterObject(this);
     }
 
-    public void ShowWorkspace()
+    /// <summary>
+    /// プロジェクト可能オブジェクトにホバーしたときに経過時間を計算する。
+    /// </summary>
+    // public void HoverVR()
+    // {
+    //     float tmp = 0;
+    //     while(tmp < SHOW_MENU_TIME)
+    //     {
+    //         tmp += Time.deltaTime;
+    //     }
+    // }
+
+    // XR Interaction Toolkitのホバー開始イベント
+    public void HoverEnter()
     {
-        throw new System.NotImplementedException();
+        if (hoverCoroutine == null)
+        {
+            hoverCoroutine = StartCoroutine(HoverTimerCoroutine());
+
+            if (GameManager.instance.progressBar != null)
+            {
+                GameManager.instance.progressBar.gameObject.SetActive(true); // 進捗バーを表示
+                GameManager.instance.progressBar.value = 0; // 初期値にリセット
+            }
+        }
     }
 
-    public void DeleteWorkspace()
+    // XR Interaction Toolkitのホバー終了イベント
+    public void HoverExit()
     {
-        throw new System.NotImplementedException();
+        if (hoverCoroutine != null)
+        {
+            StopCoroutine(hoverCoroutine);
+            hoverCoroutine = null; // コルーチンをリセット
+
+            if (GameManager.instance.progressBar != null)
+            {
+                GameManager.instance.progressBar.gameObject.SetActive(false); // 進捗バーを非表示
+            }
+        }
+    }
+
+    private IEnumerator HoverTimerCoroutine()
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < GameManager.SHOW_MENU_TIME)
+        {
+            elapsedTime += Time.deltaTime;
+
+            if (GameManager.instance.progressBar != null)
+            {
+                GameManager.instance.progressBar.value = elapsedTime; // 進捗バーの値を更新
+            }
+
+            yield return null;
+        }
+
+        ToggleShowMenu();
+    }
+    public void ToggleShowMenu()
+    {
+        menu.gameObject.SetActive(!menu.gameObject.activeSelf);
+        menu.SetId(this.GetInstanceID());
+        menu.SetPObject(this);
+
+        if (GameManager.instance.progressBar != null)
+        {
+            GameManager.instance.progressBar.gameObject.SetActive(false); // 進捗バーを非表示
+        }
     }
 
     public void Reset()
     {
-        //元の位置・大きさに戻る
-        rb.transform.position = tr.position;
-        rb.transform.localScale = tr.localScale;
-        rb.transform.eulerAngles = tr.eulerAngles;
+        // 位置、回転、スケールを初期値に戻す
+        transform.position = initialPosition;
+        transform.rotation = initialRotation;
+        transform.localScale = initialScale;
+
+        Debug.Log(rb.gameObject.name + "を元の位置に戻しました。");
+
     }
 
 }

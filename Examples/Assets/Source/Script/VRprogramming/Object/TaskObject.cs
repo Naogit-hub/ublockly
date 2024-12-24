@@ -10,6 +10,13 @@ public class TaskObject : ProgrammableObject
     public const float SQUARE_SIZE = 10f;
     protected int taskNum;
 
+    // public void Start()
+    // {
+    //     // Debug.Log("name: " + this.gameObject.name);
+    //     // Debug.Log("id: " + this.gameObject.GetInstanceID());
+    //     // Debug.Log("Task Start");
+    // }
+    
     public override IEnumerator MoveForword(float amount)
     {
         float elapsedTime = 0f; // 経過時間のカウンター
