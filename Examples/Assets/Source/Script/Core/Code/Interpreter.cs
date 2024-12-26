@@ -21,13 +21,14 @@ limitations under the License.
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using UnityEngine;
 
 namespace UBlockly
 {
     public abstract class Interpreter
     {
         public abstract CodeName Name { get; }
-        
+
         /// <summary>
         /// instances for interpreting code
         /// </summary>
@@ -37,7 +38,7 @@ namespace UBlockly
         {
             InitCodeDB();
         }
-        
+
         /// <summary>
         /// collect all code generation/interpretion methods
         /// </summary>
@@ -45,6 +46,7 @@ namespace UBlockly
         {
             mCmdMap = new Dictionary<string, Cmdtor>();
             Assembly assem = Assembly.GetAssembly(this.GetType());
+
             foreach (Type type in assem.GetTypes())
             {
                 if (type.IsSubclassOf(typeof(Cmdtor)))
@@ -52,7 +54,7 @@ namespace UBlockly
                     var attrs = type.GetCustomAttributes(typeof(CodeInterpreterAttribute), false);
                     if (attrs.Length > 0)
                     {
-                        mCmdMap[((CodeInterpreterAttribute) attrs[0]).BlockType] = Activator.CreateInstance(type) as Cmdtor;
+                        mCmdMap[((CodeInterpreterAttribute)attrs[0]).BlockType] = Activator.CreateInstance(type) as Cmdtor;
                     }
                 }
             }

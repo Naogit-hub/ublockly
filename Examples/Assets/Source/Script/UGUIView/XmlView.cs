@@ -66,6 +66,9 @@ namespace UBlockly.UGUI
             return mSavePath;
         }
 
+        /// <summary>
+        /// XML save and load initialization
+        /// </summary>
         private void Awake()
         {
             HideSavePanel();

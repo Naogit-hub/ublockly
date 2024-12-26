@@ -22,8 +22,8 @@ public class TaskObject : ProgrammableObject
         float elapsedTime = 0f; // 経過時間のカウンター
         float duration = 1f; //実行時間
 
-        Vector3 start = rb.transform.position;
-        Vector3 end = rb.transform.position;
+        Vector3 start = transform.position;
+        Vector3 end = transform.position;
         end.z += amount;
 
 

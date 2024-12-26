@@ -11,8 +11,6 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
 
     private Coroutine hoverCoroutine; // ホバーを監視するコルーチン
 
-    protected Rigidbody rb;
-
 
     private Vector3 initialPosition; // 初期位置
     private Quaternion initialRotation; // 初期回転
@@ -227,7 +225,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         transform.rotation = initialRotation;
         transform.localScale = initialScale;
 
-        Debug.Log(rb.gameObject.name + "を元の位置に戻しました。");
+        Debug.Log(gameObject.name + "を元の位置に戻しました。");
 
     }
 

@@ -42,9 +42,11 @@ namespace UBlockly
             mVariableDatas.Reset();
             
             //start runner from the topmost blocks, exclude the procedure definition blocks
+            //手続き定義ブロックを除いて、最上位のブロック(ソート済み)から実行を開始する
             List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
             if (blocks.Count == 0)
             {
+                // ブロックがない場合、または手続き定義ブロックだけの場合
                 CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
                 return;
             }
@@ -53,8 +55,8 @@ namespace UBlockly
 
             if (workspace.Options.Synchronous)
             {
-                RunSync(blocks);
                 Debug.Log("Sync");
+                RunSync(blocks);
             }
             else
             {
@@ -88,11 +90,16 @@ namespace UBlockly
         private void RunAsync(List<Block> topBlocks)
         {
             CmdRunner runner = CmdRunner.Create(topBlocks[0].Type);
+            // Debug.Log("type: " + topBlocks[0].Type);
             mCodeRunners.Add(runner);
+            // foreach (CmdRunner runner1 in mCodeRunners)
+            // {
+            //     Debug.Log("runner: " + runner1);
+            // }
 
             runner.RunMode = RunMode;
             
-            int index = 0;
+            int index = 0; 
             runner.SetFinishCallback(() =>
             {
                 index++;
@@ -125,6 +132,14 @@ namespace UBlockly
             CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Pause));
         }
 
+        /// <summary>
+        /// 現在のランナーとすべての一時停止中のコードランナーの実行を再開します。
+        /// </summary>
+        /// <remarks>
+        /// このメソッドは、現在のモードがステップであるか、現在のステータスが一時停止でない場合に、現在のステータスを実行中に変更します。
+        /// その後、すべてのコードランナーを反復処理し、一時停止中のものを再開します。
+        /// 最後に、ランナーが再開したことを示す更新イベントを発行します。
+        /// </remarks>
         public override void Resume()
         {
             if (RunMode == Mode.Step || CurStatus != Status.Pause)
