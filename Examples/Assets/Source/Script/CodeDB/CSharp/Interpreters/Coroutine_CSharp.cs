@@ -27,7 +27,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "coroutine_wait_time")]
     public class Coroutine_WaitTime_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             Debug.Log(">>>>>> block wait_time start: " + Time.time);
 
@@ -58,7 +58,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "coroutine_wait_frame")]
     public class Coroutine_WaitFrame_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             Debug.Log(">>>>>> block wait_frame start: " + Time.time);
 

@@ -26,7 +26,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "variables_get")]
     public class Variables_Get_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             string varName = CSharp.VariableNames.GetName(block.GetFieldValue("VAR"), Define.VARIABLE_CATEGORY_NAME);
             return CSharp.VariableDatas.GetData(varName);
@@ -36,7 +36,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "variables_set")]
     public class Variables_Set_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             string varName = CSharp.VariableNames.GetName(block.GetFieldValue("VAR"), Define.VARIABLE_CATEGORY_NAME);
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE");
@@ -48,7 +48,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "variables_change")]
     public class Math_Change_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             string tmp = block.GetFieldValue("VAR");
 

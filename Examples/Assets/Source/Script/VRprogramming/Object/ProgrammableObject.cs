@@ -40,7 +40,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         Vector3 end = start + transform.forward * amount;
         // end += transform.forward * amount;
 
-        Debug.Log("amount: " + amount);
+        Debug.Log("移動中");
         while (elapsedTime < duration)
         {
             // 線形補間で現在の位置を計算
@@ -77,6 +77,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         end.y *= 2;
         end.z *= 2;
 
+        Debug.Log("拡大中");
         while (elapsedTime < duration)
         {
             // 線形補間で現在の位置を計算
@@ -98,7 +99,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     /// </summary>
     /// <param name="amount">回転量</param>
     /// <returns></returns>
-    public virtual IEnumerator ChangeRotate(float amount)
+    public virtual IEnumerator ChangeRotate(float amount, int axis = 2)
     {
         // ワールド座標を基準に、回転を取得
         Vector3 start = transform.eulerAngles;
@@ -108,7 +109,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         float duration = amount / 90f; //実行時間
 
         // 一旦y軸中心固定
-        int axis = 2;
+        // int axis = 2;
         switch (axis)
         {
             case 1: // x
@@ -124,11 +125,15 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
                 break;
         }
 
-
+        Debug.Log("回転中");
         while (elapsedTime < duration)
         {
             // 線形補間で現在の位置を計算
             transform.eulerAngles = Vector3.Lerp(start, end, elapsedTime / duration);
+
+            // float t = elapsedTime / duration;
+            // t = Mathf.SmoothStep(0f, 1f, t);
+            // transform.eulerAngles = Vector3.Lerp(start, end, t);
 
             // 時間を更新
             elapsedTime += Time.deltaTime;
@@ -138,6 +143,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         }
 
         transform.eulerAngles = end; // 回転させる。
+        Debug.Log("正面方向: " + transform.forward);
         yield return null;
     }
 

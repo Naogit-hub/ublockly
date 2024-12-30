@@ -36,10 +36,11 @@ namespace UBlockly
         private DataStruct mDefaultData;
         public DataStruct DefaultData { set { mDefaultData = value; } }
 
-        public IEnumerator Run(Block block)
+        public IEnumerator Run(Block block, int id = 0)
         {
             Reset();
-            yield return OnRun(block);
+
+            yield return OnRun(block, id);
 
             if (mData.IsUndefined && !mDefaultData.IsUndefined)
                 mData = mDefaultData;
@@ -50,8 +51,8 @@ namespace UBlockly
             if (!mData.IsUndefined)
                 mData = DataStruct.Undefined;
         }
-        
-        protected abstract IEnumerator OnRun(Block block);
+
+        protected abstract IEnumerator OnRun(Block block, int id = 0);
     }
 
     /// <summary>
@@ -59,41 +60,41 @@ namespace UBlockly
     /// </summary>
     public abstract class ValueCmdtor : Cmdtor
     {
-        protected sealed override IEnumerator OnRun(Block block)
+        protected sealed override IEnumerator OnRun(Block block, int id = 0)
         {
             // never reached code, just for passing compile
             if (false) yield break;
-            
-            mData = Execute(block);
+
+            mData = Execute(block, id);
         }
 
-        protected abstract DataStruct Execute(Block block);
+        protected abstract DataStruct Execute(Block block, int id = 0);
     }
-    
+
     /// <summary>
     /// execution of block's interpreter returns void 
     /// </summary>
     public abstract class VoidCmdtor : Cmdtor
     {
-        protected sealed override IEnumerator OnRun(Block block)
+        protected sealed override IEnumerator OnRun(Block block, int id = 0)
         {
             // never reached code, just for passing compile
             if (false) yield break;
-            
-            Execute(block);
+
+            Execute(block, id);
         }
 
-        protected abstract void Execute(Block block);
+        protected abstract void Execute(Block block, int id = 0);
     }
-    
+
     /// <summary>
     /// execution of block's interpreter returns IEnumerator 
     /// </summary>
     public abstract class EnumeratorCmdtor : Cmdtor
     {
-        protected sealed override IEnumerator OnRun(Block block)
+        protected sealed override IEnumerator OnRun(Block block, int id = 0)
         {
-            yield return Execute(block);
+            yield return Execute(block, id);
         }
 
         /// <summary>
@@ -104,6 +105,6 @@ namespace UBlockly
             mData = data;
         }
 
-        protected abstract IEnumerator Execute(Block block);
+        protected abstract IEnumerator Execute(Block block, int id = 0);
     }
 }

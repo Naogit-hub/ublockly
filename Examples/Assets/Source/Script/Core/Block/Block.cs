@@ -462,6 +462,10 @@ namespace UBlockly
             Input input = this.GetInput(name);
             if (input != null && input.Connection != null && input.Connection.TargetBlock != null)
                 return input.Connection.TargetBlock;
+
+            Debug.Log(input == null ? "Input is null" : "Input connection is null");
+            Debug.Log(input.Connection == null ? "Input connection is null" : "Input connection target block is null");
+            Debug.Log(input.Connection.TargetBlock == null ? "Input connection target block is null" : "Input connection target block is not null");
             return null;
         }
     

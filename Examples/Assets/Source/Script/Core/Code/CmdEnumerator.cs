@@ -44,11 +44,13 @@ namespace UBlockly
             get { return mCmdtor.Data; }
         }
 
-        public CmdEnumerator(Block block)
+        public CmdEnumerator(Block block, int id = 0)
         {
             mBlock = block;
             mCmdtor = CSharp.Interpreter.GetBlockInterpreter(block);
-            mItor = mCmdtor.Run(block);
+            mItor = mCmdtor.Run(block, id);
+
+            UnityEngine.Debug.Log("id CmdEnumerator: " + id);
         }
 
         public bool MoveNext()
@@ -72,6 +74,7 @@ namespace UBlockly
         public CmdEnumerator GetNextCmd()
         {
             var nextblock = mBlock.NextBlock;
+            // UnityEngine.Debug.Log("GetNextCmd: " + mBlock.Type + " -> " + (nextblock == null ? "null" : nextblock.Type));
             if (nextblock == null || nextblock.Disabled)
                 return null;
 

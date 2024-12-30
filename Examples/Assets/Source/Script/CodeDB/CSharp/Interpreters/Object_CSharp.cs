@@ -12,12 +12,13 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "object_move")]
     public class Object_Move_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0));
             yield return ctor;
             DataStruct arg0 = ctor.Data;
 
+            Debug.Log("id: " + id);
             yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
         }
     }
@@ -26,7 +27,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "object_rotate")]
     public class Object_Rotate_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0));
             yield return ctor;
@@ -40,11 +41,11 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "object_get")]
     public class Object_Get_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             yield return null;
         }
-        // protected override DataStruct Execute(Block block)
+        // protected override DataStruct Execute(Block block, int id)
         // {
         //     // return CSharp.VariableDatas.GetData(varName);
         // }
@@ -54,7 +55,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "object_color")]
     public class Object_Color_cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             throw new System.NotImplementedException();
         }
@@ -63,7 +64,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "object_scale")]
     public class Object_Scale_cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             // 2倍する。
             yield return GameManager.instance.curObject.ChangeScale(2);
@@ -75,7 +76,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "object_search")]
     public class Object_Search_cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             throw new System.NotImplementedException();
         }

@@ -26,7 +26,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "procedures_callreturn")]
     public class Procedure_CallReturn_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             string procedureName = block.GetFieldValue("NAME");
             Block defBlock = block.Workspace.ProcedureDB.GetDefinitionBlock(procedureName);
@@ -41,7 +41,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "procedures_callnoreturn")]
     public class Procedure_CallNoReturn_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             string procedureName = block.GetFieldValue("NAME");
             Block defBlock = block.Workspace.ProcedureDB.GetDefinitionBlock(procedureName);
@@ -52,7 +52,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "procedures_ifreturn")]
     public class Proceudre_IfReturn_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             yield return 0;
         }

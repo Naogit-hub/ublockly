@@ -113,6 +113,10 @@ namespace UBlockly.UGUI
             //update the status object on lateupdate, to avoid moving it multiple times in on frame
             if (mRunBlockView != null)
             {
+                if (mStatusObj == null)
+                {
+                    Show();
+                }
                 RectTransform statusRect = mStatusObj.GetComponent<RectTransform>();
                 statusRect.SetParent(mRunBlockView.ViewTransform, false);
                 statusRect.anchoredPosition = new Vector2(20, -25);

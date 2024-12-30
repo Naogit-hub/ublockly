@@ -31,7 +31,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_create_empty")]
     public class Lists_Create_Empty_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             return new DataStruct(new ArrayList());
         }
@@ -40,7 +40,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_create_with")]
     public class Lists_Create_With_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             ItemListMutator mutator = block.Mutator as ItemListMutator;
             if (mutator == null)
@@ -58,7 +58,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_repeat")]
     public class Lists_Repeat_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "ITEM", new DataStruct());
             yield return ctor;
@@ -81,7 +81,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_reverse")]
     public class Lists_Reverse_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block,"LIST",new DataStruct(new ArrayList()));
             yield return ctor;
@@ -95,7 +95,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_isEmpty")]
     public class Lists_IsEmpty_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block,"VALUE",new DataStruct(new ArrayList()));
             yield return ctor;
@@ -108,7 +108,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_length")]
     public class Lists_Length_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE", new DataStruct(new ArrayList()));
             yield return ctor;
@@ -121,7 +121,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_indexOf")]
     public class Lists_IndexOf_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE", new DataStruct(""));
             yield return ctor;
@@ -181,7 +181,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_getIndex")]
     public class Lists_GetIndex_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE", new DataStruct(""));
             yield return ctor;
@@ -250,7 +250,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_removeIndex")]
     public class Lists_RemoveIndex_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE", new DataStruct(""));
             yield return ctor;
@@ -292,7 +292,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_setIndex")]
     public class Lists_SetIndex_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "LIST", new DataStruct(""));
             yield return ctor;
@@ -353,7 +353,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_getSublist")]
     public class Lists_GetSublist_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "LIST", new DataStruct(""));
             yield return ctor;
@@ -419,7 +419,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_sort")]
     public class Lists_Sort_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "LIST", new DataStruct(""));
             yield return ctor;
@@ -463,7 +463,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_split_from_text")]
     public class Lists_SplitFromText_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "INPUT", new DataStruct(""));
             yield return ctor;
@@ -480,7 +480,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "lists_join_text")]
     public class Lists_JoinText_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "INPUT", new DataStruct(""));
             yield return ctor;

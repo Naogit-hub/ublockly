@@ -16,18 +16,17 @@ public class TaskObject : ProgrammableObject
     //     // Debug.Log("id: " + this.gameObject.GetInstanceID());
     //     // Debug.Log("Task Start");
     // }
-    
+
     public override IEnumerator MoveForword(float amount)
     {
         float elapsedTime = 0f; // 経過時間のカウンター
-        float duration = 1f; //実行時間
+        float duration = amount * 0.7f; //実行時間
 
         Vector3 start = transform.position;
-        Vector3 end = transform.position;
-        end.z += amount;
+        Vector3 end = start + transform.forward * amount;
+        // end += transform.forward * amount;
 
-
-        Debug.Log("amount: " + amount);
+        Debug.Log("移動中");
         while (elapsedTime < duration)
         {
             // 線形補間で現在の位置を計算

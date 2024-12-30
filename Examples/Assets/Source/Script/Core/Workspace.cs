@@ -56,6 +56,8 @@ namespace UBlockly
         public Dictionary<Define.EConnection, ConnectionDB> ConnectionDBList { get; private set; }
         public ProcedureDB ProcedureDB { get; private set; }
 
+        public int ObjectId { get; private set; }
+
         /// <summary>
         /// Maximum number of undo events in stack. '0' turnes off udo,"Infinity" sets  it to unlimited.
         /// </summary>
@@ -72,7 +74,7 @@ namespace UBlockly
         /// Class for a workspace. This is a data structure tha contains blocks.
         /// There is no UI,and can be created headlessly.
         /// </summary>
-        public Workspace(WorkspaceOptions options = null, string optId = null)
+        public Workspace(WorkspaceOptions options = null, string optId = null, int objectId = 0)
         {
             if (string.IsNullOrEmpty(optId))
             {
@@ -104,6 +106,7 @@ namespace UBlockly
             VariableMap = new VariableMap(this);
             ConnectionDBList = ConnectionDB.Build();
             ProcedureDB = new ProcedureDB(this);
+            ObjectId = objectId;
         }
 
         /// <summary>

@@ -27,7 +27,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "controls_if")]
     public class Controls_If_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             int n = 0;
             bool satisfyIf = false;
@@ -60,7 +60,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "logic_compare")]
     public class Logic_Compare_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             string op = block.GetFieldValue("OP");
 
@@ -117,7 +117,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "logic_operation")]
     public class Logic_Operation_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             string op = block.GetFieldValue("OP");
 
@@ -149,7 +149,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "logic_negate")]
     public class Logic_Negate_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "BOOL", new DataStruct(false));
             yield return ctor;
@@ -165,7 +165,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "logic_boolean")]
     public class Logic_Boolean_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             string op = block.GetFieldValue("BOOL");
             switch (op)
@@ -180,7 +180,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "logic_null")]
     public class Logic_Null_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             return new DataStruct(false);
         }
@@ -189,7 +189,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "logic_ternary")]
     public class Logic_Ternary_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "IF", new DataStruct(false));
             yield return ctor;
@@ -212,7 +212,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "logic_toggle_boolean")]
     public class Logic_Toggle_Boolean_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             string toggleString = block.GetFieldValue("CHECKBOX");
             bool toggleValue = toggleString.Equals("TRUE");

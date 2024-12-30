@@ -30,7 +30,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_number")]
     public class MathNumberCmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             string value = block.GetFieldValue("NUM");
             Number num = new Number(value);
@@ -41,7 +41,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_arithmetic")]
     public class Math_Arithmetic_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "A", new DataStruct(0));
             yield return ctor;
@@ -76,7 +76,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_single")]
     public class Math_Single_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "NUM", new DataStruct(0));
             yield return ctor;
@@ -113,7 +113,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_trig")]
     public class Math_Trig_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "NUM", new DataStruct(0));
             yield return ctor;
@@ -147,7 +147,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_constant")]
     public class Math_Constant_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             string op = block.GetFieldValue("CONSTANT");
             switch (op)
@@ -172,7 +172,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_number_property")]
     public class Math_NumberProperty_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "NUMBER_TO_CHECK", new DataStruct(0));
             yield return ctor;
@@ -232,7 +232,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_round")]
     public class Math_Round_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "NUM", new DataStruct(0));
             yield return ctor;
@@ -257,7 +257,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_on_list")]
     public class Math_OnList_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "LIST", new DataStruct(new ArrayList()));
             yield return ctor;
@@ -297,7 +297,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_modulo")]
     public class Math_Modulo_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "DIVIDEND", new DataStruct(0));
             yield return ctor;
@@ -314,7 +314,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_constrain")]
     public class Math_Constrain_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE", new DataStruct(0));
             yield return ctor;
@@ -335,7 +335,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_random_int")]
     public class Math_RandomInt_Cmdtor : EnumeratorCmdtor
     {
-        protected override IEnumerator Execute(Block block)
+        protected override IEnumerator Execute(Block block, int id)
         {
             CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "FROM", new DataStruct(0));
             yield return ctor;
@@ -352,7 +352,7 @@ namespace UBlockly
     [CodeInterpreter(BlockType = "math_random_float")]
     public class Math_RandomFloat_Cmdtor : ValueCmdtor
     {
-        protected override DataStruct Execute(Block block)
+        protected override DataStruct Execute(Block block, int id)
         {
             return new DataStruct(UnityEngine.Random.value);
         }

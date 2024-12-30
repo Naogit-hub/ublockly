@@ -14,7 +14,7 @@ namespace UBlockly
             {
                 parentObj = new GameObject("CodeRunners");
                 GameObject.DontDestroyOnLoad(parentObj);
-            } 
+            }
             GameObject runnerObj = new GameObject(runnerName);
             if (dontDestroyOnLoad)
             {
@@ -23,11 +23,11 @@ namespace UBlockly
             runnerObj.transform.parent = parentObj.transform;
             return runnerObj.AddComponent<CmdRunner>();
         }
-        
+
         public Runner.Mode RunMode = Runner.Mode.Normal;
 
         private Runner.Status curStatus = Runner.Status.Stop;
-        public Runner.Status CurStatus { get { return curStatus; } } 
+        public Runner.Status CurStatus { get { return curStatus; } }
 
         private Stack<IEnumerator> callstack = new Stack<IEnumerator>();
 
@@ -36,9 +36,9 @@ namespace UBlockly
             callstack.Push(call);
             if (call is CmdEnumerator)
             {
-                Debug.Log(">>>>>enter + " + ((CmdEnumerator) call).Block.Type);
+                Debug.Log(">>>>>enter + " + ((CmdEnumerator)call).Block.Type);
                 // Debug.Log("------====------");　高頻度で呼ばれる
-                CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.RunBlock, ((CmdEnumerator) call).Block));
+                CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.RunBlock, ((CmdEnumerator)call).Block));
             }
         }
 
@@ -47,8 +47,8 @@ namespace UBlockly
             var call = callstack.Pop();
             if (call is CmdEnumerator)
             {
-                Debug.Log(">>>>>exit + " + ((CmdEnumerator) call).Block.Type);
-                CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.FinishBlock, ((CmdEnumerator) call).Block));
+                Debug.Log(">>>>>exit + " + ((CmdEnumerator)call).Block.Type);
+                CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.FinishBlock, ((CmdEnumerator)call).Block));
             }
         }
 
@@ -73,7 +73,9 @@ namespace UBlockly
 
             //step mode: wait until Step() calls
             if (RunMode != Runner.Mode.Step)
+            {
                 StartCoroutine(Run());
+            }
         }
 
         /// <summary>
@@ -161,7 +163,7 @@ namespace UBlockly
                     //exit point of block
 
                     //push next block
-                    CmdEnumerator next = ((CmdEnumerator) itor).GetNextCmd();
+                    CmdEnumerator next = ((CmdEnumerator)itor).GetNextCmd();
                     if (next != null)
                     {
                         PushCall(next);
@@ -204,7 +206,7 @@ namespace UBlockly
             for (int i = calls.Length - 1; i >= 0; i--)
             {
                 if (calls[i] is CmdEnumerator)
-                    blocks.Add(((CmdEnumerator) calls[i]).Block.Type);
+                    blocks.Add(((CmdEnumerator)calls[i]).Block.Type);
             }
             return blocks;
         }

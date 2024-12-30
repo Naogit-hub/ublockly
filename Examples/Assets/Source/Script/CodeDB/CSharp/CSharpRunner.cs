@@ -19,6 +19,7 @@ limitations under the License.
 
 using System.Collections.Generic;
 using System.Linq;
+using UBlockly.UGUI;
 using UnityEngine;
 
 namespace UBlockly
@@ -28,19 +29,19 @@ namespace UBlockly
         private readonly Names mVariableNames;
         private readonly Datas mVariableDatas;
         private readonly List<CmdRunner> mCodeRunners;
-        
+
         public CSharpRunner(Names variableNames, Datas variableDatas)
         {
             mVariableNames = variableNames;
             mVariableDatas = variableDatas;
             mCodeRunners = new List<CmdRunner>();
         }
-        
+
         public override void Run(Workspace workspace)
         {
             mVariableNames.Reset();
             mVariableDatas.Reset();
-            
+
             //start runner from the topmost blocks, exclude the procedure definition blocks
             //手続き定義ブロックを除いて、最上位のブロック(ソート済み)から実行を開始する
             List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
@@ -50,7 +51,7 @@ namespace UBlockly
                 CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
                 return;
             }
-            
+
             CurStatus = Status.Running;
 
             if (workspace.Options.Synchronous)
@@ -97,9 +98,10 @@ namespace UBlockly
             //     Debug.Log("runner: " + runner1);
             // }
 
+            Debug.Log(topBlocks[0].Type + " " + topBlocks.Count);
             runner.RunMode = RunMode;
-            
-            int index = 0; 
+
+            int index = 0;
             runner.SetFinishCallback(() =>
             {
                 index++;
@@ -118,12 +120,39 @@ namespace UBlockly
             runner.StartRun(new CmdEnumerator(topBlocks[0]));
         }
 
+        private void RunAsync(List<Block> topBlocks, int id)
+        {
+            Debug.Log("id runner: " + id);
+            CmdRunner runner = CmdRunner.Create(topBlocks[0].Type);
+            mCodeRunners.Add(runner);
+
+            runner.RunMode = RunMode;
+
+            int index = 0;
+            runner.SetFinishCallback(() =>
+            {
+                index++;
+                if (index < topBlocks.Count)
+                {
+                    runner.StartRun(new CmdEnumerator(topBlocks[index], id));
+                }
+                else
+                {
+                    GameObject.Destroy(runner.gameObject);
+                    mCodeRunners.Clear();
+                    CurStatus = Status.Stop;
+                    CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
+                }
+            });
+            runner.StartRun(new CmdEnumerator(topBlocks[0], id));
+        }
+
         public override void Pause()
         {
             if (RunMode == Mode.Step || CurStatus != Status.Running)
                 return;
             CurStatus = Status.Pause;
-            
+
             foreach (CmdRunner runner in mCodeRunners)
             {
                 if (runner.CurStatus == Runner.Status.Running)
@@ -145,7 +174,7 @@ namespace UBlockly
             if (RunMode == Mode.Step || CurStatus != Status.Pause)
                 return;
             CurStatus = Status.Running;
-            
+
             foreach (CmdRunner runner in mCodeRunners)
             {
                 if (runner.CurStatus == Runner.Status.Pause)
@@ -159,21 +188,21 @@ namespace UBlockly
             if (CurStatus == Status.Stop)
                 return;
             CurStatus = Status.Stop;
-            
+
             foreach (CmdRunner runner in mCodeRunners)
             {
                 runner.Stop();
                 GameObject.Destroy(runner.gameObject);
             }
             mCodeRunners.Clear();
-            
+
             CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
         }
 
         public override void Error(string msg)
         {
             CurStatus = Status.Stop;
-            
+
             foreach (CmdRunner runner in mCodeRunners)
             {
                 runner.Stop();
@@ -202,6 +231,77 @@ namespace UBlockly
                 callstack.Concat(mCodeRunners[i].GetCallStack());
             }
             return callstack;
+        }
+
+        public void ListRun(Workspace workspace)
+        {
+            foreach (List<Block> blocks in GameManager.instance.blockList)
+            {
+                mVariableNames.Reset();
+                mVariableDatas.Reset();
+
+                if (blocks.Count == 0)
+                {
+                    // ブロックがない場合、または手続き定義ブロックだけの場合
+                    CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
+                    return;
+                }
+
+                CurStatus = Status.Running;
+
+                if (workspace.Options.Synchronous)
+                {
+                    Debug.Log("Sync");
+                    RunSync(blocks);
+                }
+                else
+                {
+                    Debug.Log("Async");
+                    RunAsync(blocks);
+                }
+                GameManager.instance.CmdNum++;
+            }
+
+            GameManager.instance.CmdNum = 0;
+        }
+
+        public void ListRunId()
+        {
+            GameManager.instance.workspaceList.Clear();
+            GameManager.instance.blockList.Clear();
+
+            foreach (int id in GameManager.instance.idList)
+            {
+                Workspace workspace = new Workspace(null,null,id);
+                GameManager.instance.workspaceList.Add(workspace);
+
+                GameManager.instance.LoadXml("object" + id, workspace);
+                List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
+                GameManager.instance.blockList.Add(blocks);
+
+                mVariableNames.Reset();
+                mVariableDatas.Reset();
+
+                if (blocks.Count == 0)
+                {
+                    // ブロックがない場合、または手続き定義ブロックだけの場合
+                    CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
+                    return;
+                }
+
+                CurStatus = Status.Running;
+
+                if (workspace.Options.Synchronous)
+                {
+                    Debug.Log("Sync");
+                    RunSync(blocks);
+                }
+                else
+                {
+                    Debug.Log("Async!!!");
+                    RunAsync(blocks, id);
+                }
+            }
         }
     }
 }
