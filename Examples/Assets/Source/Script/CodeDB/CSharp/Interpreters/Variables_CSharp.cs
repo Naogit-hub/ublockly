@@ -39,7 +39,7 @@ namespace UBlockly
         protected override IEnumerator Execute(Block block, int id)
         {
             string varName = CSharp.VariableNames.GetName(block.GetFieldValue("VAR"), Define.VARIABLE_CATEGORY_NAME);
-            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE");
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "VALUE", id);
             yield return ctor;
             CSharp.VariableDatas.SetData(varName, ctor.Data);
         }
@@ -52,7 +52,7 @@ namespace UBlockly
         {
             string tmp = block.GetFieldValue("VAR");
 
-            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "DELTA", new DataStruct(0));
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "DELTA", new DataStruct(0),id);
             yield return ctor;
             DataStruct arg1 = ctor.Data;
 

@@ -30,9 +30,9 @@ namespace UBlockly
         {
             string procedureName = block.GetFieldValue("NAME");
             Block defBlock = block.Workspace.ProcedureDB.GetDefinitionBlock(procedureName);
-            yield return CSharp.Interpreter.StatementRun(defBlock, "STACK");
+            yield return CSharp.Interpreter.StatementRun(defBlock, "STACK", id);
             
-            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(defBlock, "RETURN");
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(defBlock, "RETURN", id);
             yield return ctor;
             ReturnData(ctor.Data);
         }
@@ -45,7 +45,7 @@ namespace UBlockly
         {
             string procedureName = block.GetFieldValue("NAME");
             Block defBlock = block.Workspace.ProcedureDB.GetDefinitionBlock(procedureName);
-            yield return CSharp.Interpreter.StatementRun(defBlock, "STACK");
+            yield return CSharp.Interpreter.StatementRun(defBlock, "STACK", id);
         }
     }
 

@@ -144,7 +144,10 @@ namespace UBlockly
                     CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
                 }
             });
+
+            Debug.Log("a----");
             runner.StartRun(new CmdEnumerator(topBlocks[0], id));
+            Debug.Log("aaa---------");
         }
 
         public override void Pause()

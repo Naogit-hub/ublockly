@@ -17,6 +17,7 @@ limitations under the License.
 ****************************************************************************/
 
 using System.Collections;
+using System.Diagnostics;
 
 namespace UBlockly
 {
@@ -82,6 +83,7 @@ namespace UBlockly
             if (LoopCmdtor.SkipRunByControlFlow(nextblock))
                 return null;
 
+            UnityEngine.Debug.Log("GetNextCmd: ");
             return new CmdEnumerator(nextblock);
         }
     }

@@ -14,7 +14,7 @@ namespace UBlockly
     {
         protected override IEnumerator Execute(Block block, int id)
         {
-            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0));
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0), id);
             yield return ctor;
             DataStruct arg0 = ctor.Data;
 
@@ -29,7 +29,7 @@ namespace UBlockly
     {
         protected override IEnumerator Execute(Block block, int id)
         {
-            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0));
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0), id);
             yield return ctor;
             DataStruct arg0 = ctor.Data;
 

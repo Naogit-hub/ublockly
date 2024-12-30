@@ -35,7 +35,7 @@ namespace UBlockly
         /// run code representing the specified value input.
         /// should return a DataStruct
         /// </summary>
-        public CmdEnumerator ValueReturn(Block block, string name)
+        public CmdEnumerator ValueReturn(Block block, string name, int id)
         {
             var targetBlock = block.GetInputTargetBlock(name);
             if (targetBlock == null)
@@ -48,15 +48,17 @@ namespace UBlockly
                 Debug.Log(string.Format("Value input block of {0} must have an output connection", block.Type));
                 return null;
             }
-            return new CmdEnumerator(targetBlock);
+            UnityEngine.Debug.Log("ValueReturn: ");
+
+            return new CmdEnumerator(targetBlock, id);
         }
 
         /// <summary>
         /// run code representing the specified value input. WITH a default DataStruct
         /// </summary>
-        public CmdEnumerator ValueReturn(Block block, string name, DataStruct defaultData)
+        public CmdEnumerator ValueReturn(Block block, string name, DataStruct defaultData, int id)
         {
-            CmdEnumerator etor = ValueReturn(block, name);
+            CmdEnumerator etor = ValueReturn(block, name, id);
             etor.Cmdtor.DefaultData = defaultData;
             return etor;
         }
@@ -64,7 +66,7 @@ namespace UBlockly
         /// <summary>
         /// Run code representing the statement.
         /// </summary>
-        public CmdEnumerator StatementRun(Block block, string name)
+        public CmdEnumerator StatementRun(Block block, string name, int id)
         {
             var targetBlock = block.GetInputTargetBlock(name);
             if (targetBlock == null)
@@ -78,7 +80,8 @@ namespace UBlockly
                 return null;
             }
 
-            return new CmdEnumerator(targetBlock);
+            UnityEngine.Debug.Log("StatementRun: ");
+            return new CmdEnumerator(targetBlock, id);
         }
 
         public Cmdtor GetBlockInterpreter(Block block)
