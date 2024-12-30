@@ -18,8 +18,13 @@ namespace UBlockly
             yield return ctor;
             DataStruct arg0 = ctor.Data;
 
-            Debug.Log("id: " + id);
-            yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
+            Debug.Log("move id: " + id);
+            Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+            // yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
+            if (id == 0)
+                yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
+            else
+                yield return GameManager.instance.p_ObjectDict[id].MoveForword(arg0.NumberValue.Value);
         }
     }
 
@@ -33,7 +38,13 @@ namespace UBlockly
             yield return ctor;
             DataStruct arg0 = ctor.Data;
 
-            yield return GameManager.instance.curObject.ChangeRotate(arg0.NumberValue.Value);
+            Debug.Log("rotate id: " + id);
+            Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+
+            if (id == 0)
+                yield return GameManager.instance.curObject.ChangeRotate(arg0.NumberValue.Value);
+            else
+                yield return GameManager.instance.p_ObjectDict[id].ChangeRotate(arg0.NumberValue.Value);
         }
     }
 
@@ -66,10 +77,17 @@ namespace UBlockly
     {
         protected override IEnumerator Execute(Block block, int id)
         {
-            // 2倍する。
-            yield return GameManager.instance.curObject.ChangeScale(2);
-            // throw new System.NotImplementedException();
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0), id);
+            yield return ctor;
+            DataStruct arg0 = ctor.Data;
 
+            Debug.Log("move id: " + id);
+            Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+
+            if (id == 0)
+                yield return GameManager.instance.curObject.ChangeScale(arg0.NumberValue.Value);
+            else
+                yield return GameManager.instance.p_ObjectDict[id].ChangeScale(arg0.NumberValue.Value);
         }
     }
     /* オブジェクトを探知する(trigger) */

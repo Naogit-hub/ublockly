@@ -135,7 +135,7 @@ namespace UBlockly
             while (callstack.Count > 0)
             {
                 IEnumerator itor = callstack.Peek();
-                Debug.Log("CmdRunner - Run - itor: " + itor);
+                // Debug.Log("CmdRunner - Run - itor: " + itor);
 
                 bool finished = true;
                 while (itor.MoveNext())

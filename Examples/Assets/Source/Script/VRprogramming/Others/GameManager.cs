@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public List<int> idList = new List<int>();
     public List<ProgrammableObject> p_ObjectList = new List<ProgrammableObject>();
 
+    public Dictionary<int, ProgrammableObject> p_ObjectDict = new Dictionary<int, ProgrammableObject>();
     public List<Workspace> workspaceList = new List<Workspace>();
 
     /// <summary>
@@ -62,17 +63,17 @@ public class GameManager : MonoBehaviour
             progressBar.value = 0; // 初期値を0にする
         }
     }
-    public void RegisterObject(ProgrammableObject p)
-    {
-        p_ObjectList.Add(p);
-        curObject = p;
-    }
+    // public void RegisterObject(ProgrammableObject p)
+    // {
+    //     p_ObjectList.Add(p);
+    //     curObject = p;
+    // }
 
-    public ProgrammableObject GetObject(int num)
-    {
-        curObject = p_ObjectList[num];
-        return curObject;
-    }
+    // public ProgrammableObject GetObject(int num)
+    // {
+    //     curObject = p_ObjectList[num];
+    //     return curObject;
+    // }
 
     // XMLファイルのセーブとロード
     private string mSavePath;

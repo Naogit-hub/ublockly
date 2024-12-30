@@ -29,7 +29,7 @@ namespace UBlockly
         private readonly Block mBlock;
         private readonly Cmdtor mCmdtor;
         private IEnumerator mItor;
-
+        private int mId;
         public Block Block
         {
             get { return mBlock; }
@@ -50,8 +50,7 @@ namespace UBlockly
             mBlock = block;
             mCmdtor = CSharp.Interpreter.GetBlockInterpreter(block);
             mItor = mCmdtor.Run(block, id);
-
-            UnityEngine.Debug.Log("id CmdEnumerator: " + id);
+            mId = id;
         }
 
         public bool MoveNext()
@@ -84,7 +83,7 @@ namespace UBlockly
                 return null;
 
             UnityEngine.Debug.Log("GetNextCmd: ");
-            return new CmdEnumerator(nextblock);
+            return new CmdEnumerator(nextblock, mId);
         }
     }
 }

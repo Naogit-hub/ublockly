@@ -62,7 +62,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     /// </summary>
     /// <param name="num">何倍するか</param>
     /// <returns></returns>
-    public virtual IEnumerator ChangeScale(int num)
+    public virtual IEnumerator ChangeScale(float num)
     {
         // Vector3 curScale = rb.transform.localScale;
         // rb.transform.localScale = new Vector3(curScale.x * num, curScale.y * num, curScale.z * num);
@@ -72,10 +72,10 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         float duration = 1f;
 
         Vector3 start = transform.localScale;
-        Vector3 end = start;
-        end.x *= 2;
-        end.y *= 2;
-        end.z *= 2;
+        Vector3 end = start * num;
+        // end.x *= num;
+        // end.y *= num;
+        // end.z *= num;
 
         Debug.Log("拡大中");
         while (elapsedTime < duration)
@@ -147,10 +147,10 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         yield return null;
     }
 
-    public void RegisterThis()
-    {
-        GameManager.instance.RegisterObject(this);
-    }
+    // public void RegisterThis()
+    // {
+    //     GameManager.instance.RegisterObject(this);
+    // }
 
     /// <summary>
     /// プロジェクト可能オブジェクトにホバーしたときに経過時間を計算する。

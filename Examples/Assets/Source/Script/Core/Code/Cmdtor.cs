@@ -39,7 +39,7 @@ namespace UBlockly
         public IEnumerator Run(Block block, int id = 0)
         {
             Reset();
-            Debug.Log("id Cmdtor: " + id);
+            // Debug.Log("id Cmdtor: " + id);
             yield return OnRun(block, id);
 
             if (mData.IsUndefined && !mDefaultData.IsUndefined)

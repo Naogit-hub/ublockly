@@ -68,17 +68,24 @@ public class OriginalView : MonoBehaviour
     public void RegisterObjectId()
     {
         GameManager.instance.SaveXml();
-        GameManager.instance.idList.Add(GameManager.instance.curUniqeID);
-        GameManager.instance.p_ObjectList.Add(GameManager.instance.curObject);
+        // GameManager.instance.idList.Add(GameManager.instance.curUniqeID);
+        // GameManager.instance.p_ObjectList.Add(GameManager.instance.curObject);
 
-        foreach (int id in GameManager.instance.idList)
-        {
-            Debug.Log("ID: " + id);
-        }
+        GameManager.instance.p_ObjectDict.Add(GameManager.instance.curUniqeID, GameManager.instance.curObject);
 
-        foreach (ProgrammableObject p_Object in GameManager.instance.p_ObjectList)
+        // foreach (int id in GameManager.instance.idList)
+        // {
+        //     Debug.Log("ID: " + id);
+        // }
+
+        // foreach (ProgrammableObject p_Object in GameManager.instance.p_ObjectList)
+        // {
+        //     Debug.Log("p_Object: " + p_Object);
+        // }
+
+        foreach (KeyValuePair<int, ProgrammableObject> p_Object in GameManager.instance.p_ObjectDict)
         {
-            Debug.Log("p_Object: " + p_Object);
+            Debug.Log("Key: " + p_Object.Key + " Value: " + p_Object.Value);
         }
     }
     /// <summary>

@@ -47,7 +47,7 @@
     "args0":[
       {
         "type": "input_value",
-        "name": "scale_amount",
+        "name": "amount",
         "value": 1
       }
     ],

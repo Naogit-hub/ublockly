@@ -273,8 +273,42 @@ namespace UBlockly
             GameManager.instance.workspaceList.Clear();
             GameManager.instance.blockList.Clear();
 
-            foreach (int id in GameManager.instance.idList)
+            // foreach (int id in GameManager.instance.idList)
+            // {
+            //     Workspace workspace = new Workspace(null,null,id);
+            //     GameManager.instance.workspaceList.Add(workspace);
+
+            //     GameManager.instance.LoadXml("object" + id, workspace);
+            //     List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
+            //     GameManager.instance.blockList.Add(blocks);
+
+            //     mVariableNames.Reset();
+            //     mVariableDatas.Reset();
+
+            //     if (blocks.Count == 0)
+            //     {
+            //         // ブロックがない場合、または手続き定義ブロックだけの場合
+            //         CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
+            //         return;
+            //     }
+
+            //     CurStatus = Status.Running;
+
+            //     if (workspace.Options.Synchronous)
+            //     {
+            //         Debug.Log("Sync");
+            //         RunSync(blocks);
+            //     }
+            //     else
+            //     {
+            //         Debug.Log("Async!!!");
+            //         RunAsync(blocks, id);
+            //     }
+            // }
+
+            foreach (KeyValuePair<int, ProgrammableObject> p_Object in GameManager.instance.p_ObjectDict)
             {
+                int id = p_Object.Key;
                 Workspace workspace = new Workspace(null,null,id);
                 GameManager.instance.workspaceList.Add(workspace);
 
