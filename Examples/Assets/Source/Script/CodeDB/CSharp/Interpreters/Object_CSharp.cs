@@ -19,12 +19,15 @@ namespace UBlockly
             DataStruct arg0 = ctor.Data;
 
             Debug.Log("move id: " + id);
-            Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
-            // yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
-            if (id == 0)
-                yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                yield return p_Object.MoveForword(arg0.NumberValue.Value);
+            }
             else
-                yield return GameManager.instance.p_ObjectDict[id].MoveForword(arg0.NumberValue.Value);
+            {
+                yield return GameManager.instance.curObject.MoveForword(arg0.NumberValue.Value);
+            }
         }
     }
 
@@ -39,12 +42,16 @@ namespace UBlockly
             DataStruct arg0 = ctor.Data;
 
             Debug.Log("rotate id: " + id);
-            Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
 
-            if (id == 0)
-                yield return GameManager.instance.curObject.ChangeRotate(arg0.NumberValue.Value);
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                yield return p_Object.ChangeRotate(arg0.NumberValue.Value);
+            }
             else
-                yield return GameManager.instance.p_ObjectDict[id].ChangeRotate(arg0.NumberValue.Value);
+            {
+                yield return GameManager.instance.curObject.ChangeRotate(arg0.NumberValue.Value);
+            }
         }
     }
 
@@ -82,12 +89,15 @@ namespace UBlockly
             DataStruct arg0 = ctor.Data;
 
             Debug.Log("move id: " + id);
-            Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
-
-            if (id == 0)
-                yield return GameManager.instance.curObject.ChangeScale(arg0.NumberValue.Value);
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                yield return p_Object.ChangeScale(arg0.NumberValue.Value);
+            }
             else
-                yield return GameManager.instance.p_ObjectDict[id].ChangeScale(arg0.NumberValue.Value);
+            {
+                yield return GameManager.instance.curObject.ChangeScale(arg0.NumberValue.Value);
+            }
         }
     }
     /* オブジェクトを探知する(trigger) */

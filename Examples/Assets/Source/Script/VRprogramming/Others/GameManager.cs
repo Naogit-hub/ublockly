@@ -18,11 +18,14 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 登録されたオブジェクトのIDリスト
     /// </summary>
-    public List<int> idList = new List<int>();
-    public List<ProgrammableObject> p_ObjectList = new List<ProgrammableObject>();
+    // public List<int> idList = new List<int>();
+    // public List<ProgrammableObject> p_ObjectList = new List<ProgrammableObject>();
 
     public Dictionary<int, ProgrammableObject> p_ObjectDict = new Dictionary<int, ProgrammableObject>();
     public List<Workspace> workspaceList = new List<Workspace>();
+
+    [SerializeField]
+    public TargetField targetField;
 
     /// <summary>
     /// 実行中のコマンド番号
@@ -147,11 +150,11 @@ public class GameManager : MonoBehaviour
             yield break; // File not found
         }
 
-        if(workspace == null)
+        if (workspace == null)
         {
             workspace = BlocklyUI.WorkspaceView.Workspace;
         }
-        
+
         var dom = UBlockly.Xml.TextToDom(inputXml);
         UBlockly.Xml.DomToWorkspace(dom, workspace);
         BlocklyUI.WorkspaceView.BuildViews();
@@ -199,6 +202,4 @@ public class GameManager : MonoBehaviour
             CSharp.Runner.Resume();
         }
     }
-
-
 }

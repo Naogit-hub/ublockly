@@ -9,6 +9,10 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     [SerializeField]
     private Menu menu;
 
+    public Menu Menu
+    {
+        get { return menu; }
+    }
     private Coroutine hoverCoroutine; // ホバーを監視するコルーチン
 
 
@@ -80,7 +84,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         Debug.Log("拡大中");
         while (elapsedTime < duration)
         {
-            // 線形補間で現在の位置を計算
+            // 線形補間で現在の大きさを計算
             transform.localScale = Vector3.Lerp(start, end, elapsedTime / duration);
 
             // 時間を更新
@@ -147,23 +151,6 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         yield return null;
     }
 
-    // public void RegisterThis()
-    // {
-    //     GameManager.instance.RegisterObject(this);
-    // }
-
-    /// <summary>
-    /// プロジェクト可能オブジェクトにホバーしたときに経過時間を計算する。
-    /// </summary>
-    // public void HoverVR()
-    // {
-    //     float tmp = 0;
-    //     while(tmp < SHOW_MENU_TIME)
-    //     {
-    //         tmp += Time.deltaTime;
-    //     }
-    // }
-
     // XR Interaction Toolkitのホバー開始イベント
     public void HoverEnter()
     {
@@ -194,6 +181,19 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         }
     }
 
+    public void SelectEnter()
+    {
+        if (hoverCoroutine != null)
+        {
+            StopCoroutine(hoverCoroutine);
+            hoverCoroutine = null; // コルーチンをリセット
+
+            if (GameManager.instance.progressBar != null)
+            {
+                GameManager.instance.progressBar.gameObject.SetActive(false); // 進捗バーを非表示
+            }
+        }
+    }
     private IEnumerator HoverTimerCoroutine()
     {
         float elapsedTime = 0f;
@@ -232,7 +232,5 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         transform.localScale = initialScale;
 
         Debug.Log(gameObject.name + "を元の位置に戻しました。");
-
     }
-
 }

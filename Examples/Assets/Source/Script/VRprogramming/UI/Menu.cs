@@ -36,6 +36,8 @@ public class Menu : MonoBehaviour
         GameManager.instance.curUniqeID = uniqeID;
         Debug.Log("object" + uniqeID);
         GameManager.instance.curObject = p_object;
+        GameManager.instance.targetField.SetTargetObject(p_object);
+
         Debug.Log("curObject: " + GameManager.instance.curObject);
         
         GameManager.instance.LoadXml("object" + uniqeID);
