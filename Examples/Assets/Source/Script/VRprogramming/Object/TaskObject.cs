@@ -7,7 +7,7 @@ public class TaskObject : ProgrammableObject
     /// <summary>
     /// タスクシーンにおける1マスのサイズ
     /// </summary>
-    public const float SQUARE_SIZE = 10f;
+    public const float SQUARE_SIZE = 1f;
     protected int taskNum;
 
     // public void Start()
@@ -19,11 +19,17 @@ public class TaskObject : ProgrammableObject
 
     public override IEnumerator MoveForword(float amount)
     {
+        if (!CheckNextSquare())
+        {
+            Debug.Log("壁があるため移動できません");
+            yield break;
+        }
+
         float elapsedTime = 0f; // 経過時間のカウンター
         float duration = amount * 0.7f; //実行時間
 
         Vector3 start = transform.position;
-        Vector3 end = start + transform.forward * amount;
+        Vector3 end = start + transform.forward * amount * SQUARE_SIZE;
         // end += transform.forward * amount;
 
         Debug.Log("移動中");
@@ -41,5 +47,24 @@ public class TaskObject : ProgrammableObject
 
         // 最終的な位置を確実にセット
         transform.position = end;
+    }
+    public bool CheckNextSquare()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, SQUARE_SIZE))
+        {
+            if (hit.collider.gameObject.tag == "Wall")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return true;
+        }
     }
 }

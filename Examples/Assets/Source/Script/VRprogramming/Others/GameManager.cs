@@ -7,13 +7,15 @@ using UBlockly;
 using UBlockly.UGUI;
 using UnityEngine.Networking;
 using System;
+using System.Numerics;
+using Unity.Mathematics;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
     public ProgrammableObject curObject = null;
     public Slider progressBar;
-
-    public List<List<Block>> blockList = new List<List<Block>>();
+    public GameObject uiPos;
+    // public List<List<Block>> blockList = new List<List<Block>>();
 
     /// <summary>
     /// 登録されたオブジェクトのIDリスト
@@ -23,8 +25,6 @@ public class GameManager : MonoBehaviour
 
     public Dictionary<int, ProgrammableObject> p_ObjectDict = new Dictionary<int, ProgrammableObject>();
     public List<Workspace> workspaceList = new List<Workspace>();
-
-    [SerializeField]
     public TargetField targetField;
 
     /// <summary>
@@ -201,5 +201,13 @@ public class GameManager : MonoBehaviour
         {
             CSharp.Runner.Resume();
         }
+    }
+
+    public UnityEngine.Vector3 GetUIPos()
+    {
+        UnityEngine.Vector3 newPos = uiPos.transform.position;
+        newPos.y = Math.Max(newPos.y, 1f);
+
+        return newPos;
     }
 }

@@ -35,7 +35,7 @@ public class TargetField : MonoBehaviour
         if (programmableObject != null)
         {
             Vector3 angle = programmableObject.transform.eulerAngles;
-            angle.y += 0.02f;
+            angle.y += 0.06f;
             programmableObject.transform.eulerAngles = angle;
         }
     }
@@ -50,7 +50,11 @@ public class TargetField : MonoBehaviour
         ProgrammableObject targetObject = Instantiate(p_Object, targetPosition, Quaternion.identity);
         targetObject.transform.eulerAngles = new Vector3(-15f, 0f, 0f);
         targetObject.Menu.gameObject.SetActive(false);
-        targetObject.GetComponent<Rigidbody>().isKinematic = true;
+
+        if (targetObject.GetComponent<Rigidbody>() != null)
+        {
+            targetObject.GetComponent<Rigidbody>().isKinematic = true;
+        }
         targetObject.transform.parent = this.transform;
 
         Debug.Log("SetTargetObject: " + targetObject);

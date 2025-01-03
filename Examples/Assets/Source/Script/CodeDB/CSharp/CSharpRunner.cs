@@ -236,85 +236,86 @@ namespace UBlockly
             return callstack;
         }
 
-        public void ListRun(Workspace workspace)
-        {
-            foreach (List<Block> blocks in GameManager.instance.blockList)
-            {
-                mVariableNames.Reset();
-                mVariableDatas.Reset();
+        // public void ListRun(Workspace workspace)
+        // {
+        //     foreach (List<Block> blocks in GameManager.instance.blockList)
+        //     {
+        //         mVariableNames.Reset();
+        //         mVariableDatas.Reset();
 
-                if (blocks.Count == 0)
-                {
-                    // ブロックがない場合、または手続き定義ブロックだけの場合
-                    CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
-                    return;
-                }
+        //         if (blocks.Count == 0)
+        //         {
+        //             // ブロックがない場合、または手続き定義ブロックだけの場合
+        //             CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
+        //             return;
+        //         }
 
-                CurStatus = Status.Running;
+        //         CurStatus = Status.Running;
 
-                if (workspace.Options.Synchronous)
-                {
-                    Debug.Log("Sync");
-                    RunSync(blocks);
-                }
-                else
-                {
-                    Debug.Log("Async");
-                    RunAsync(blocks);
-                }
-                GameManager.instance.CmdNum++;
-            }
+        //         if (workspace.Options.Synchronous)
+        //         {
+        //             Debug.Log("Sync");
+        //             RunSync(blocks);
+        //         }
+        //         else
+        //         {
+        //             Debug.Log("Async");
+        //             RunAsync(blocks);
+        //         }
+        //         GameManager.instance.CmdNum++;
+        //     }
 
-            GameManager.instance.CmdNum = 0;
-        }
+        //     GameManager.instance.CmdNum = 0;
+        // }
 
         public void ListRunId()
         {
             GameManager.instance.workspaceList.Clear();
-            GameManager.instance.blockList.Clear();
+            // GameManager.instance.blockList.Clear();
 
-            // foreach (int id in GameManager.instance.idList)
-            // {
-            //     Workspace workspace = new Workspace(null,null,id);
-            //     GameManager.instance.workspaceList.Add(workspace);
+            /*
+                        foreach (int id in GameManager.instance.idList)
+                        {
+                            Workspace workspace = new Workspace(null,null,id);
+                            GameManager.instance.workspaceList.Add(workspace);
 
-            //     GameManager.instance.LoadXml("object" + id, workspace);
-            //     List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
-            //     GameManager.instance.blockList.Add(blocks);
+                            GameManager.instance.LoadXml("object" + id, workspace);
+                            List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
+                            GameManager.instance.blockList.Add(blocks);
 
-            //     mVariableNames.Reset();
-            //     mVariableDatas.Reset();
+                            mVariableNames.Reset();
+                            mVariableDatas.Reset();
 
-            //     if (blocks.Count == 0)
-            //     {
-            //         // ブロックがない場合、または手続き定義ブロックだけの場合
-            //         CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
-            //         return;
-            //     }
+                            if (blocks.Count == 0)
+                            {
+                                // ブロックがない場合、または手続き定義ブロックだけの場合
+                                CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
+                                return;
+                            }
 
-            //     CurStatus = Status.Running;
+                            CurStatus = Status.Running;
 
-            //     if (workspace.Options.Synchronous)
-            //     {
-            //         Debug.Log("Sync");
-            //         RunSync(blocks);
-            //     }
-            //     else
-            //     {
-            //         Debug.Log("Async!!!");
-            //         RunAsync(blocks, id);
-            //     }
-            // }
-
+                            if (workspace.Options.Synchronous)
+                            {
+                                Debug.Log("Sync");
+                                RunSync(blocks);
+                            }
+                            else
+                            {
+                                Debug.Log("Async!!!");
+                                RunAsync(blocks, id);
+                            }
+                        }
+            */
             foreach (KeyValuePair<int, ProgrammableObject> p_Object in GameManager.instance.p_ObjectDict)
             {
                 int id = p_Object.Key;
-                Workspace workspace = new Workspace(null,null,id);
+                Workspace workspace = new Workspace(null, null, id);
                 GameManager.instance.workspaceList.Add(workspace);
 
                 GameManager.instance.LoadXml("object" + id, workspace);
                 List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
-                GameManager.instance.blockList.Add(blocks);
+                // GameManager.instance.blockList.Add(blocks);
 
                 mVariableNames.Reset();
                 mVariableDatas.Reset();

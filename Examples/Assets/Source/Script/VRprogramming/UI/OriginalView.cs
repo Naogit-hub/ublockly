@@ -22,6 +22,8 @@ public class OriginalView : MonoBehaviour
 
     [SerializeField] protected Button m_RegisterBtn;
     [SerializeField] protected Button m_DeleteWindowBtn;
+    [SerializeField] protected Button m_ChangePositionBtn;
+    [SerializeField] protected Button m_CancelBtn;
 
     /// <summary>
     /// blockを登録するボタン
@@ -38,33 +40,46 @@ public class OriginalView : MonoBehaviour
         {
             DeleteWindow();
         });
+
+        m_ChangePositionBtn.onClick.AddListener(() =>
+        {
+            ChangePosition();
+        });
+
+        m_CancelBtn.onClick.AddListener(() =>
+        {
+            Cancel();
+        });
     }
 
     /// <summary>
     /// ブロックを登録する
     /// </summary>
-    public void Register()
-    {
-        // ワークスペースを取得
-        Workspace workspace = BlocklyUI.WorkspaceView.Workspace;
+    // public void Register()
+    // {
+    //     // ワークスペースを取得
+    //     Workspace workspace = BlocklyUI.WorkspaceView.Workspace;
 
-        // workspaceから全てのブロックを取得
-        List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
+    //     // workspaceから全てのブロックを取得
+    //     List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
 
-        GameManager.instance.blockList.Add(blocks);
+    //     GameManager.instance.blockList.Add(blocks);
 
-        foreach (List<Block> blockList in GameManager.instance.blockList)
-        {
-            Debug.Log("BlockList " + GameManager.instance.blockList.IndexOf(blockList));
-            foreach (Block block in blockList)
-            {
-                Debug.Log(block.Type);
-            }
-        }
+    //     foreach (List<Block> blockList in GameManager.instance.blockList)
+    //     {
+    //         Debug.Log("BlockList " + GameManager.instance.blockList.IndexOf(blockList));
+    //         foreach (Block block in blockList)
+    //         {
+    //             Debug.Log(block.Type);
+    //         }
+    //     }
 
-        GameManager.instance.SaveXml();
-    }
+    //     GameManager.instance.SaveXml();
+    // }
 
+    /// <summary>
+    /// オブジェクトのIDを登録する
+    /// </summary>
     public void RegisterObjectId()
     {
         GameManager.instance.SaveXml();
@@ -88,12 +103,37 @@ public class OriginalView : MonoBehaviour
             Debug.Log("Key: " + p_Object.Key + " Value: " + p_Object.Value);
         }
     }
+
+    /// <summary>
+    /// オブジェクトIDを辞書から削除する
+    /// </summary>
+    public void Cancel()
+    {
+        if (GameManager.instance.p_ObjectDict.ContainsKey(GameManager.instance.curUniqeID))
+        {
+            GameManager.instance.p_ObjectDict.Remove(GameManager.instance.curUniqeID);
+            Debug.Log("削除しました");
+        }
+    }
     /// <summary>
     /// ウィンドウを閉じる
     /// </summary>
     public void DeleteWindow()
     {
         BlocklyUI.UICanvas.gameObject.SetActive(false);
+        // GameManager.instance.curObject.directionCanvas.gameObject.SetActive(false);
         GameManager.instance.SaveXml();
+    }
+
+    public void ChangePosition()
+    {
+        Vector3 newPos = GameManager.instance.GetUIPos();
+
+        Vector3 newRotate = BlocklyUI.UICanvas.transform.rotation.eulerAngles;
+        newRotate.y = GameManager.instance.uiPos.transform.rotation.eulerAngles.y;
+
+        BlocklyUI.UICanvas.gameObject.SetActive(true);
+        BlocklyUI.UICanvas.transform.position = newPos;
+        BlocklyUI.UICanvas.transform.rotation = Quaternion.Euler(newRotate);
     }
 }

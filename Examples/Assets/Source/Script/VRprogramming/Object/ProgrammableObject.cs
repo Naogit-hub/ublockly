@@ -13,8 +13,9 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     {
         get { return menu; }
     }
-    private Coroutine hoverCoroutine; // ホバーを監視するコルーチン
 
+    // public Canvas directionCanvas; // 方向を表示するキャンバス
+    private Coroutine hoverCoroutine; // ホバーを監視するコルーチン
 
     private Vector3 initialPosition; // 初期位置
     private Quaternion initialRotation; // 初期回転
@@ -22,6 +23,15 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
 
     void Start()
     {
+        if (menu != null)
+        {
+            menu.gameObject.SetActive(false);
+        }
+
+        // if (directionCanvas != null)
+        // {
+        //     directionCanvas.gameObject.SetActive(false);
+        // }
         // rb = this.GetComponent<Rigidbody>();
 
         // 初期状態を保存
@@ -214,7 +224,19 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     }
     public void ToggleShowMenu()
     {
-        menu.gameObject.SetActive(!menu.gameObject.activeSelf);
+        if (menu.gameObject.activeSelf)
+        {
+            menu.gameObject.SetActive(false);
+            GameManager.instance.progressBar.gameObject.SetActive(false); // 進捗バーを非表示
+            return;
+        }
+
+        menu.gameObject.SetActive(true);
+        UnityEngine.Vector3 newRotate = menu.transform.rotation.eulerAngles;
+        newRotate.y = GameManager.instance.uiPos.transform.rotation.eulerAngles.y;
+        menu.gameObject.transform.rotation = UnityEngine.Quaternion.Euler(newRotate);
+        // menu.gameObject.transform.position = GameManager.instance.GetUIPos();
+
         menu.SetId(this.GetInstanceID());
         menu.SetPObject(this);
 
