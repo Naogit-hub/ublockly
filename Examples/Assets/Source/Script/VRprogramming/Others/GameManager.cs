@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public ProgrammableObject curObject = null;
     public Slider progressBar;
     public GameObject uiPos;
+    public CD cdPrefab;
     // public List<List<Block>> blockList = new List<List<Block>>();
 
     /// <summary>
@@ -80,7 +81,7 @@ public class GameManager : MonoBehaviour
 
     // XMLファイルのセーブとロード
     private string mSavePath;
-    public int curUniqeID = 0;
+    public int curUniqueID = 0;
     public string GetSavePath()
     {
         if (string.IsNullOrEmpty(mSavePath))
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
         string text = UBlockly.Xml.DomToText(dom);
         string path = GetSavePath();
 
-        path = System.IO.Path.Combine(path, "object" + curUniqeID + ".xml");
+        path = System.IO.Path.Combine(path, "object" + curUniqueID + ".xml");
 
         System.IO.File.WriteAllText(path, text);
     }
@@ -182,7 +183,7 @@ public class GameManager : MonoBehaviour
         string path = GetSavePath();
         if (System.IO.Directory.Exists(path))
         {
-            string[] files = System.IO.Directory.GetFiles(path, "object-*.xml");
+            string[] files = System.IO.Directory.GetFiles(path, "object*.xml");
             foreach (string file in files)
             {
                 System.IO.File.Delete(file);
@@ -201,6 +202,11 @@ public class GameManager : MonoBehaviour
         {
             CSharp.Runner.Resume();
         }
+    }
+
+    public void Stop()
+    {
+        CSharp.Runner.ListStopId();
     }
 
     public UnityEngine.Vector3 GetUIPos()

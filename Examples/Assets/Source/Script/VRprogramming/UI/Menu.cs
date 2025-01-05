@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Xml;
 using Microsoft.Unity.VisualStudio.Editor;
 using UBlockly;
 using UBlockly.UGUI;
@@ -10,15 +11,15 @@ using UnityEngine.Networking;
 
 public class Menu : MonoBehaviour
 {
-    private int uniqeID;
+    private int uniqueId;
 
     // 操作対象のオブジェクト
     private ProgrammableObject p_object;
 
     public void SetId(int id)
     {
-        uniqeID = id;
-        Debug.Log("id: " + uniqeID);
+        uniqueId = id;
+        Debug.Log("id: " + uniqueId);
     }
 
     public void SetPObject(ProgrammableObject programmableObject)
@@ -48,14 +49,24 @@ public class Menu : MonoBehaviour
         BlocklyUI.UICanvas.transform.position = newPos;
         BlocklyUI.UICanvas.transform.rotation = UnityEngine.Quaternion.Euler(newRotate);
 
-        GameManager.instance.curUniqeID = uniqeID;
-        Debug.Log("object" + uniqeID);
+        GameManager.instance.curUniqueID = uniqueId;
+        Debug.Log("object" + uniqueId);
         GameManager.instance.curObject = p_object;
         GameManager.instance.targetField.SetTargetObject(p_object);
 
         Debug.Log("curObject: " + GameManager.instance.curObject);
 
-        GameManager.instance.LoadXml("object" + uniqeID);
+        if (p_object.DefaultXML != "")
+        {
+            Debug.Log("デフォルトXMLが設定されている");
+            GameManager.instance.LoadXml(p_object.DefaultXML);
+        }
+        else
+        {
+            Debug.Log("デフォルトXMLが設定されていない");
+            GameManager.instance.LoadXml("object" + uniqueId);
+        }
+
         // BlocklyUI.NewWorkspace();
         // throw new System.NotImplementedException();
 
@@ -63,15 +74,20 @@ public class Menu : MonoBehaviour
     }
 
     /// <summary>
-    /// 関連づいたワークスペースを非表示にする。
-    /// </summary>
-    public void DeleteWorkspace() { }
-
-    /// <summary>
     /// オブジェクトの状態をもとに戻す
     /// </summary>
     public void ResetTransform()
     {
         p_object.Reset();
+    }
+
+    public void CopyXML()
+    {
+        CD cd = Instantiate(GameManager.instance.cdPrefab);
+        cd.ID = uniqueId;
+        cd.transform.position = this.transform.position;
+        this.gameObject.SetActive(false);
+        
+        Debug.Log("ID: " + cd.ID);
     }
 }

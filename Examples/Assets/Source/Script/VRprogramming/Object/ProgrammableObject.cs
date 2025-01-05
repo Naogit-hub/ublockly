@@ -21,7 +21,14 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     private Quaternion initialRotation; // 初期回転
     private Vector3 initialScale; // 初期スケール
 
-    void Start()
+    [SerializeField]
+    private string defaultXML = "";
+    public string DefaultXML
+    {
+        get { return defaultXML; }
+        set { defaultXML = value; }
+    }
+    void Awake()
     {
         if (menu != null)
         {
@@ -120,7 +127,15 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         Vector3 end = start;
 
         float elapsedTime = 0f; // 経過時間のカウンター
-        float duration = amount / 90f; //実行時間
+        float duration; //実行時間
+        if (amount < 0)
+        {
+            duration = -amount / 90f;
+        }
+        else
+        {
+            duration = amount / 90f;
+        }
 
         // 一旦y軸中心固定
         // int axis = 2;

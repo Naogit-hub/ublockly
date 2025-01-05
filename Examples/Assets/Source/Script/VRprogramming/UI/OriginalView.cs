@@ -86,7 +86,7 @@ public class OriginalView : MonoBehaviour
         // GameManager.instance.idList.Add(GameManager.instance.curUniqeID);
         // GameManager.instance.p_ObjectList.Add(GameManager.instance.curObject);
 
-        GameManager.instance.p_ObjectDict.Add(GameManager.instance.curUniqeID, GameManager.instance.curObject);
+        GameManager.instance.p_ObjectDict.Add(GameManager.instance.curUniqueID, GameManager.instance.curObject);
 
         // foreach (int id in GameManager.instance.idList)
         // {
@@ -109,9 +109,9 @@ public class OriginalView : MonoBehaviour
     /// </summary>
     public void Cancel()
     {
-        if (GameManager.instance.p_ObjectDict.ContainsKey(GameManager.instance.curUniqeID))
+        if (GameManager.instance.p_ObjectDict.ContainsKey(GameManager.instance.curUniqueID))
         {
-            GameManager.instance.p_ObjectDict.Remove(GameManager.instance.curUniqeID);
+            GameManager.instance.p_ObjectDict.Remove(GameManager.instance.curUniqueID);
             Debug.Log("削除しました");
         }
     }

@@ -341,5 +341,21 @@ namespace UBlockly
                 }
             }
         }
+
+        public void ListStopId()
+        {
+            // if (CurStatus == Status.Stop)
+            //     return;
+            // CurStatus = Status.Stop;
+
+            // foreach (CmdRunner runner in mCodeRunners)
+            // {
+            //     runner.Stop();
+            //     GameObject.Destroy(runner.gameObject);
+            // }
+            // mCodeRunners.Clear();
+
+            // CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
+        }
     }
 }
