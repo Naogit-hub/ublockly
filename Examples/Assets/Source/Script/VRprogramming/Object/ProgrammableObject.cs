@@ -302,4 +302,24 @@ public abstract class ProgrammableObject : MonoBehaviour
 
         Debug.Log(gameObject.name + "を元の位置に戻しました。");
     }
+
+    public virtual bool CheckAbleToMove()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 1.0f))
+        {
+            if (hit.collider.gameObject.tag == "Wall")
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return true;
+        }
+    }
 }

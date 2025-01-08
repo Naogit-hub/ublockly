@@ -4,4 +4,8 @@ using UnityEngine;
 
 public class FieldObject : ProgrammableObject
 {
+    public void Start()
+    {
+        
+    }
 }

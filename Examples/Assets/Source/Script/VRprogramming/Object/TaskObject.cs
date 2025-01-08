@@ -58,7 +58,7 @@ public class TaskObject : ProgrammableObject
         rb.velocity = Vector3.zero; // 移動終了時に速度を0に
         rb.isKinematic = true;
     }
-    public bool CheckAbleToMove()
+    public override bool CheckAbleToMove()
     {
         RaycastHit hit;
         if (Physics.Raycast(transform.position, transform.forward, out hit, SQUARE_SIZE))
