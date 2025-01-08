@@ -137,7 +137,7 @@ namespace UBlockly.UGUI
             if (blockView.InToolbox) return false;
 
             RectTransform toggleTrans = m_BinArea.transform as RectTransform;
-            if (RectTransformUtility.RectangleContainsScreenPoint(toggleTrans, UnityEngine.Input.mousePosition, BlocklyUI.UICanvas.worldCamera))
+            if (RectTransformUtility.RectangleContainsScreenPoint(toggleTrans, blockView.transform.position, BlocklyUI.UICanvas.worldCamera))
             {
                 m_BinArea.gameObject.SetActive(true);
                 return true;
