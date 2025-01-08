@@ -7,8 +7,14 @@ public class Task : MonoBehaviour
 {
     [SerializeField]
     private List<Goal> goalList;
+
+    [SerializeField]
+    private List<TaskObject> taskObjects;
+
     private bool isTaskComplete = false;
-    private bool isTaskStart = false;
+    public bool IsTaskComplete { get { return isTaskComplete; } }
+
+    private bool isTaskRun = false;
 
     private float startTime;
     private float endTime;
@@ -22,12 +28,33 @@ public class Task : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// タスクを開始する。
+    /// </summary>
     public void StartTask()
     {
-        isTaskStart = true;
-        startTime = Time.time;
-        Debug.Log("Task Start: " + startTime);
+        ResetTaskObjects();
+        if (!isTaskRun)
+        {
+            isTaskRun = true;
+            startTime = Time.time;
+            Debug.Log("Task Start: " + startTime);
+        }
     }
+
+    /// <summary>
+    /// タスクを中止する。
+    /// </summary>
+    public void StopTask()
+    {
+        if (isTaskRun)
+        {
+            isTaskRun = false;
+            startTime = 0;
+            Debug.Log("タスクを中止しました。");
+        }
+    }
+
 
     /// <summary>
     /// タスクがクリアされたかどうか
@@ -46,8 +73,23 @@ public class Task : MonoBehaviour
         endTime = Time.time;
         Debug.Log("Task End: " + endTime);
         Debug.Log("Task Time: " + (endTime - startTime));
+        isTaskRun = false;
         isTaskComplete = true;
         this.gameObject.SetActive(false);
         return true;
+    }
+
+    /// <summary>
+    /// このタスクに登録されているTaskObject全体を初期位置に戻す。
+    /// </summary>
+    public void ResetTaskObjects()
+    {
+        GameManager.instance.p_ObjectDict.Clear();
+        foreach (TaskObject taskObject in taskObjects)
+        {
+            GameManager.instance.p_ObjectDict.Add(taskObject.UniqueID, taskObject);
+            Debug.Log("register- object: " + taskObject);
+            taskObject.ResetObject();
+        }
     }
 }

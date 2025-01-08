@@ -6,8 +6,8 @@ public class TaskManager : MonoBehaviour
 {
     [SerializeField]
     private List<Task> taskList;
-    private int curTaskIndex = 0;
-
+    private int selectedTaskIndex = 0;
+    private Task curTask = null;
     public void Start()
     {
         foreach (Task task in taskList)
@@ -17,18 +17,30 @@ public class TaskManager : MonoBehaviour
         // taskList[0].gameObject.SetActive(true);
     }
 
-    public void SetCurrentTask(int index)
+    public void SetTaskIndex(int index)
     {
         if (index < 0 || index >= taskList.Count)
         {
             Debug.LogError("Task index out of range");
             return;
         }
-        curTaskIndex = index;
+        selectedTaskIndex = index;
     }
     public void StartTask()
     {
-        taskList[curTaskIndex].gameObject.SetActive(true);
-        taskList[curTaskIndex].StartTask();
+        if(curTask != null)
+        {
+            curTask.StopTask();
+            curTask.gameObject.SetActive(false);
+        }
+
+        curTask = taskList[selectedTaskIndex];
+        curTask.gameObject.SetActive(true);
+        curTask.StartTask();
+    }
+
+    public void ResetPosition()
+    {
+        curTask.ResetTaskObjects();
     }
 }

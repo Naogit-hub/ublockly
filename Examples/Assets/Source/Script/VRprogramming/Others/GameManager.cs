@@ -96,13 +96,24 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// Save the workspace to xml
     /// </summary>
-    public void SaveXml()
+    public void SaveXml(int id = 0, Workspace workspace = null)
     {
-        var dom = UBlockly.Xml.WorkspaceToDom(BlocklyUI.WorkspaceView.Workspace);
+        if (workspace == null)
+        {
+            workspace = BlocklyUI.WorkspaceView.Workspace;
+        }
+        var dom = UBlockly.Xml.WorkspaceToDom(workspace);
         string text = UBlockly.Xml.DomToText(dom);
         string path = GetSavePath();
 
-        path = System.IO.Path.Combine(path, "object" + curUniqueID + ".xml");
+        if (id != 0)
+        {
+            path = System.IO.Path.Combine(path, "object" + id + ".xml");
+        }
+        else
+        {
+            path = System.IO.Path.Combine(path, "object" + curUniqueID + ".xml");
+        }
 
         System.IO.File.WriteAllText(path, text);
     }
@@ -206,7 +217,8 @@ public class GameManager : MonoBehaviour
 
     public void Stop()
     {
-        CSharp.Runner.ListStopId();
+        Debug.Log("プログラムストップ！！");
+        CSharp.Runner.Stop();
     }
 
     public UnityEngine.Vector3 GetUIPos()

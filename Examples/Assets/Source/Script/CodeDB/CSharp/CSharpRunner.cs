@@ -313,7 +313,18 @@ namespace UBlockly
                 Workspace workspace = new Workspace(null, null, id);
                 GameManager.instance.workspaceList.Add(workspace);
 
-                GameManager.instance.LoadXml("object" + id, workspace);
+                if (p_Object.Value.DefaultXML != "")
+                {
+                    Debug.Log("デフォルトXMLが設定されている");
+                    GameManager.instance.LoadXml(p_Object.Value.DefaultXML, workspace);
+                    GameManager.instance.SaveXml(id, workspace);
+                    p_Object.Value.DefaultXML = "";
+                }
+                else
+                {
+                    Debug.Log("デフォルトXMLが設定されていない");
+                    GameManager.instance.LoadXml("object" + id, workspace);
+                }
                 List<Block> blocks = workspace.GetTopBlocks(true).FindAll(block => !ProcedureDB.IsDefinition(block));
                 // GameManager.instance.blockList.Add(blocks);
 
@@ -340,22 +351,6 @@ namespace UBlockly
                     RunAsync(blocks, id);
                 }
             }
-        }
-
-        public void ListStopId()
-        {
-            // if (CurStatus == Status.Stop)
-            //     return;
-            // CurStatus = Status.Stop;
-
-            // foreach (CmdRunner runner in mCodeRunners)
-            // {
-            //     runner.Stop();
-            //     GameObject.Destroy(runner.gameObject);
-            // }
-            // mCodeRunners.Clear();
-
-            // CSharp.Runner.FireUpdate(new RunnerUpdateState(RunnerUpdateState.Stop));
         }
     }
 }

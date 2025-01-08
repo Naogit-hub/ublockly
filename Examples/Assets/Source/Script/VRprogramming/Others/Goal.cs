@@ -5,10 +5,8 @@ using UnityEngine;
 public class Goal : MonoBehaviour
 {
     private float stayTime = 0f;
-    // private bool hasLogged = false;
     private Task task;
     private bool isGoal = false;
-
     public bool IsGoal { get { return isGoal; } }
 
     /// <summary>
@@ -27,10 +25,27 @@ public class Goal : MonoBehaviour
             stayTime += Time.deltaTime;
             if (stayTime >= 1f)
             {
-                isGoal = true;
                 Debug.Log("Goal");
-                task.IsClear();
+
+                IsClear();
             }
         }
+    }
+
+    /// <summary>
+    /// Task1用の回答チェック
+    /// </summary>
+    public void CheckAnswer()
+    {
+        // IsClear();
+    }
+
+    /// <summary>
+    /// isGoalをtrueにし、所属のTaskについてclearしてるか確認する。
+    /// </summary>
+    public void IsClear()
+    {
+        isGoal = true;
+        task.IsClear();
     }
 }

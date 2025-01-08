@@ -34,6 +34,9 @@ public class CD : MonoBehaviour
     {
         if (other.gameObject.TryGetComponent<ProgrammableObject>(out p_object))
         {
+            if (p_object.IsReadOnly)
+                return;
+                
             p_object.DefaultXML = "object" + id;
             Debug.Log("読み込み中: " + p_object.DefaultXML);
             Destroy(this.gameObject);

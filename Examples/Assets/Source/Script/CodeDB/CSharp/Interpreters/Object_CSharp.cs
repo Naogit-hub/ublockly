@@ -55,20 +55,6 @@ namespace UBlockly
         }
     }
 
-    /* オブジェクトを取得する */
-    [CodeInterpreter(BlockType = "object_get")]
-    public class Object_Get_Cmdtor : EnumeratorCmdtor
-    {
-        protected override IEnumerator Execute(Block block, int id)
-        {
-            yield return null;
-        }
-        // protected override DataStruct Execute(Block block, int id)
-        // {
-        //     // return CSharp.VariableDatas.GetData(varName);
-        // }
-
-    }
     /* オブジェクトの色を変える */
     [CodeInterpreter(BlockType = "object_color")]
     public class Object_Color_cmdtor : EnumeratorCmdtor
@@ -100,13 +86,33 @@ namespace UBlockly
             }
         }
     }
-    /* オブジェクトを探知する(trigger) */
-    [CodeInterpreter(BlockType = "object_search")]
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [CodeInterpreter(BlockType = "object_target_check")]
     public class Object_Search_cmdtor : EnumeratorCmdtor
     {
         protected override IEnumerator Execute(Block block, int id)
         {
-            throw new System.NotImplementedException();
+            CmdEnumerator ctor = CSharp.Interpreter.ValueReturn(block, "amount", new DataStruct(0), id);
+            yield return ctor;
+            DataStruct arg0 = ctor.Data;
+
+            DataStruct returnData = new DataStruct(false);
+
+            string op = block.GetFieldValue("object_type");
+
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                returnData.BooleanValue = p_Object.CheckNextTarget(arg0.NumberValue.Value, op);
+            }
+            else
+            {
+                returnData.BooleanValue = GameManager.instance.curObject.CheckNextTarget(arg0.NumberValue.Value, op);
+            }
+            ReturnData(returnData);
         }
     }
 }

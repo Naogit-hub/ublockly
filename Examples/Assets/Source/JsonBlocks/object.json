@@ -1,7 +1,7 @@
 [
   {
     "type": "object_move",
-    "message0": "オブジェクトを %1 だけ移動させる",
+    "message0": "オブジェクトを %1 だけ移動",
     "args0": [
       {
         "type": "input_value",
@@ -12,10 +12,9 @@
     "previousStatement": null,
     "nextStatement": null
   },
-
   {
     "type": "object_rotate",
-    "message0": "オブジェクトを %1 だけ回転させる",
+    "message0": "オブジェクトを %1 だけ回転",
     "args0": [
       {
         "type": "input_value",
@@ -26,7 +25,6 @@
     "previousStatement": null,
     "nextStatement": null
   },
-
   {
     "type": "object_color",
     "message0": "オブジェクトの色を %1 に変更する",
@@ -40,30 +38,36 @@
     "previousStatement": null,
     "nextStatement": null
   },
-
   {
     "type": "object_scale",
     "message0": "オブジェクトの大きさを %1 倍する",
-    "args0":[
+    "args0": [
       {
         "type": "input_value",
         "name": "amount",
         "value": 1
       }
     ],
-    "previousStatement":null,
-    "nextStatement":null
+    "previousStatement": null,
+    "nextStatement": null
   },
-
   {
-    "type": "object_get",
-    "message0": "オブジェクトを取得する",
-    "output": "Object"
-  },
-
-  {
-    "type": "object_search",
-    "message0": "オブジェクトを探知する",
-    "output": "Object"
+    "type": "object_target_check",
+    "message0": "%1 マス先が %2 なら",
+    "args0": [
+      {
+        "type": "input_value",
+        "name": "amount",
+        "check": "Number"
+      },
+      {
+        "type": "field_dropdown",
+        "name": "object_type",
+        "options": [
+          ["壁", "Wall"]
+        ]
+      }
+    ],
+    "output": "Boolean"
   }
 ]

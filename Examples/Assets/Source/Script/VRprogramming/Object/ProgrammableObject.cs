@@ -4,7 +4,7 @@ using UBlockly.UGUI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
+public abstract class ProgrammableObject : MonoBehaviour
 {
     [SerializeField]
     private Menu menu;
@@ -16,10 +16,11 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
 
     // public Canvas directionCanvas; // 方向を表示するキャンバス
     private Coroutine hoverCoroutine; // ホバーを監視するコルーチン
-
     private Vector3 initialPosition; // 初期位置
     private Quaternion initialRotation; // 初期回転
     private Vector3 initialScale; // 初期スケール
+    private int uniqueID;
+    public int UniqueID { get { return uniqueID; } }
 
     [SerializeField]
     private string defaultXML = "";
@@ -27,6 +28,14 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
     {
         get { return defaultXML; }
         set { defaultXML = value; }
+    }
+
+    [SerializeField]
+    private bool isReadOnly = false;
+
+    public bool IsReadOnly
+    {
+        get { return isReadOnly; }
     }
     void Awake()
     {
@@ -40,7 +49,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         //     directionCanvas.gameObject.SetActive(false);
         // }
         // rb = this.GetComponent<Rigidbody>();
-
+        uniqueID = GetInstanceID();
         // 初期状態を保存
         initialPosition = transform.position;
         initialRotation = transform.rotation;
@@ -176,6 +185,29 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         yield return null;
     }
 
+    public virtual bool CheckNextTarget(float amount, string tagName)
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, amount))
+        {
+            if (hit.collider.gameObject.tag == tagName)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+
+
     // XR Interaction Toolkitのホバー開始イベント
     public void HoverEnter()
     {
@@ -252,7 +284,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         menu.gameObject.transform.rotation = UnityEngine.Quaternion.Euler(newRotate);
         // menu.gameObject.transform.position = GameManager.instance.GetUIPos();
 
-        menu.SetId(this.GetInstanceID());
+        menu.SetId(uniqueID);
         menu.SetPObject(this);
 
         if (GameManager.instance.progressBar != null)
@@ -261,7 +293,7 @@ public abstract class ProgrammableObject : MonoBehaviour, IProgrammable
         }
     }
 
-    public void Reset()
+    public void ResetObject()
     {
         // 位置、回転、スケールを初期値に戻す
         transform.position = initialPosition;

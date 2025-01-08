@@ -78,7 +78,7 @@ public class Menu : MonoBehaviour
     /// </summary>
     public void ResetTransform()
     {
-        p_object.Reset();
+        p_object.ResetObject();
     }
 
     public void CopyXML()
