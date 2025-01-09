@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class TargetField : MonoBehaviour
 {
-    [SerializeField]
     private Vector3 targetPosition;
 
     private ProgrammableObject programmableObject;
     public Camera renderCamera; // Render Textureを使用しているカメラ
     public RenderTexture renderTexture; // 対象のRender Texture
-
+ 
     void Start()
     {
         if (renderCamera != null)
         {
             renderCamera.targetTexture = renderTexture;
+            Vector3 tmp = renderCamera.transform.position;
+            tmp.x += 2;
+            targetPosition = tmp;
         }
     }
 
