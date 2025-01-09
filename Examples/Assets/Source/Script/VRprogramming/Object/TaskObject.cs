@@ -9,12 +9,10 @@ public class TaskObject : ProgrammableObject
     /// </summary>
     public const float SQUARE_SIZE = 1f;
     private float speed = 1f;
-    private Rigidbody rb;
     public void Start()
     {
-        if (rb == null)
+        if (rb != null)
         {
-            rb = GetComponent<Rigidbody>();
             rb.isKinematic = true;
         }
     }

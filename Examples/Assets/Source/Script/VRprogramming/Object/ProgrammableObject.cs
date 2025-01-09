@@ -19,6 +19,7 @@ public abstract class ProgrammableObject : MonoBehaviour
     private Vector3 initialPosition; // 初期位置
     private Quaternion initialRotation; // 初期回転
     private Vector3 initialScale; // 初期スケール
+    protected Rigidbody rb;
     private int uniqueID;
     public int UniqueID { get { return uniqueID; } }
 
@@ -43,12 +44,14 @@ public abstract class ProgrammableObject : MonoBehaviour
         {
             menu.gameObject.SetActive(false);
         }
-
+        
         // if (directionCanvas != null)
         // {
         //     directionCanvas.gameObject.SetActive(false);
         // }
-        // rb = this.GetComponent<Rigidbody>();
+        rb = this.GetComponent<Rigidbody>();
+        rb.useGravity = false;
+
         uniqueID = GetInstanceID();
         // 初期状態を保存
         initialPosition = transform.position;
@@ -279,9 +282,9 @@ public abstract class ProgrammableObject : MonoBehaviour
         }
 
         menu.gameObject.SetActive(true);
-        UnityEngine.Vector3 newRotate = menu.transform.rotation.eulerAngles;
+        Vector3 newRotate = menu.transform.rotation.eulerAngles;
         newRotate.y = GameManager.instance.uiPos.transform.rotation.eulerAngles.y;
-        menu.gameObject.transform.rotation = UnityEngine.Quaternion.Euler(newRotate);
+        menu.gameObject.transform.rotation = Quaternion.Euler(newRotate);
         // menu.gameObject.transform.position = GameManager.instance.GetUIPos();
 
         menu.SetId(uniqueID);
