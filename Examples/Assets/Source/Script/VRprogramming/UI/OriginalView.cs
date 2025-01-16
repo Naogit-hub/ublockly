@@ -83,16 +83,17 @@ public class OriginalView : MonoBehaviour
     public void RegisterObjectId()
     {
         if (!GameManager.instance.curObject.IsReadOnly)
+        {
             GameManager.instance.SaveXml();
-        // GameManager.instance.idList.Add(GameManager.instance.curUniqeID);
-        // GameManager.instance.p_ObjectList.Add(GameManager.instance.curObject);
+            GameManager.instance.curObject.DefaultXML = "";
+        }
 
         GameManager.instance.p_ObjectDict.Add(GameManager.instance.curUniqueID, GameManager.instance.curObject);
 
-        foreach (KeyValuePair<int, ProgrammableObject> p_Object in GameManager.instance.p_ObjectDict)
-        {
-            Debug.Log("Key: " + p_Object.Key + " Value: " + p_Object.Value);
-        }
+        // foreach (KeyValuePair<int, ProgrammableObject> p_Object in GameManager.instance.p_ObjectDict)
+        // {
+        //     Debug.Log("Key: " + p_Object.Key + " Value: " + p_Object.Value);
+        // }
     }
 
     /// <summary>
@@ -114,9 +115,10 @@ public class OriginalView : MonoBehaviour
         BlocklyUI.UICanvas.gameObject.SetActive(false);
         // GameManager.instance.curObject.directionCanvas.gameObject.SetActive(false);
         if (!GameManager.instance.curObject.IsReadOnly)
+        {
             GameManager.instance.SaveXml();
-
-        GameManager.instance.p_ObjectDict[GameManager.instance.curUniqueID].DefaultXML = "";
+            GameManager.instance.curObject.DefaultXML = "";
+        }
     }
 
     public void ChangePosition()

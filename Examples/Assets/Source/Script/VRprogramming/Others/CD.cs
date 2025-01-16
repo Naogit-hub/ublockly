@@ -5,11 +5,18 @@ using UnityEngine;
 public class CD : MonoBehaviour
 {
     private Rigidbody rb;
-    private int id;
-    public int ID
+    // private int id;
+    // public int ID
+    // {
+    //     get { return id; }
+    //     set { id = value; }
+    // }
+
+    private string xml;
+    public string Xml
     {
-        get { return id; }
-        set { id = value; }
+        get { return xml; }
+        set { xml = value; }
     }
 
     private ProgrammableObject p_object;
@@ -36,9 +43,9 @@ public class CD : MonoBehaviour
         {
             if (p_object.IsReadOnly)
                 return;
-                
-            p_object.DefaultXML = "object" + id;
-            Debug.Log("読み込み中: " + p_object.DefaultXML);
+
+            p_object.DefaultXML = this.xml;
+            Debug.Log("読み込み中: " + xml);
             Destroy(this.gameObject);
         }
     }

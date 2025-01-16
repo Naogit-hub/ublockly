@@ -84,10 +84,34 @@ public class Menu : MonoBehaviour
     public void CopyXML()
     {
         CD cd = Instantiate(GameManager.instance.cdPrefab);
-        cd.ID = uniqueId;
+
+        if (p_object.DefaultXML != "")
+        {
+            cd.Xml = p_object.DefaultXML;
+        }
+        else
+        {
+            cd.Xml = "object" + uniqueId;
+        }
+
+        // cd.ID = uniqueId;
         cd.transform.position = this.transform.position;
         this.gameObject.SetActive(false);
-        
-        Debug.Log("ID: " + cd.ID);
+
+        Debug.Log("copy XML: " + cd.Xml);
+    }
+
+    public void Clone()
+    {
+        if (!p_object.IsReadOnly)
+            Instantiate(this.p_object);
+    }
+
+    public void ChangeGravity()
+    {
+        bool tmp = p_object.rb.useGravity;
+        p_object.rb.useGravity = !tmp;
+
+        Debug.Log("Gravity");
     }
 }

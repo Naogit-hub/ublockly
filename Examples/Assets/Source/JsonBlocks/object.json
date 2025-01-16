@@ -1,7 +1,7 @@
 [
   {
     "type": "object_move",
-    "message0": "オブジェクトを %1 だけ移動",
+    "message0": "%1 だけ前方に移動する",
     "args0": [
       {
         "type": "input_value",
@@ -9,30 +9,23 @@
         "check": "Number"
       }
     ],
+    "previousStatement": null,
+    "nextStatement": null
+  },
+  {
+    "type": "object_stop",
+    "message0": "停止する",
     "previousStatement": null,
     "nextStatement": null
   },
   {
     "type": "object_rotate",
-    "message0": "オブジェクトを %1 だけ回転",
+    "message0": "%1 だけ回転する",
     "args0": [
       {
         "type": "input_value",
         "name": "amount",
         "check": "Number"
-      }
-    ],
-    "previousStatement": null,
-    "nextStatement": null
-  },
-  {
-    "type": "object_color",
-    "message0": "オブジェクトの色を %1 に変更する",
-    "args0": [
-      {
-        "type": "input_value",
-        "name": "color",
-        "check": "Colour"
       }
     ],
     "previousStatement": null,
@@ -40,7 +33,7 @@
   },
   {
     "type": "object_scale",
-    "message0": "オブジェクトの大きさを %1 倍する",
+    "message0": "大きさを %1 倍する",
     "args0": [
       {
         "type": "input_value",
@@ -53,7 +46,7 @@
   },
   {
     "type": "object_target_check",
-    "message0": "%1 マス先が %2 なら",
+    "message0": "%1 だけ先が %2 なら",
     "args0": [
       {
         "type": "input_value",
@@ -64,10 +57,31 @@
         "type": "field_dropdown",
         "name": "object_type",
         "options": [
-          ["壁", "Wall"]
+          ["壁", "Wall"],
+          ["車", "Car"],
+          ["プレイヤー", "Player"],
+          ["敵", "Enemy"]
         ]
       }
     ],
     "output": "Boolean"
+  },
+  {
+    "type": "object_tag",
+    "message0": "タグ %1 を設定する",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "object_type",
+        "options": [
+          ["壁", "Wall"],
+          ["車", "Car"],
+          ["プレイヤー", "Player"],
+          ["敵", "Enemy"]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null
   }
 ]

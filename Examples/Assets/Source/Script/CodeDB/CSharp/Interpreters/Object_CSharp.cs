@@ -31,6 +31,23 @@ namespace UBlockly
         }
     }
 
+    [CodeInterpreter(BlockType = "object_stop")]
+    public class Object_Stop_Cmdtor : EnumeratorCmdtor
+    {
+        protected override IEnumerator Execute(Block block, int id)
+        {
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                yield return p_Object.StopMoving();
+            }
+            else
+            {
+                yield return GameManager.instance.curObject.StopMoving();
+            }
+        }
+    }
+
     /* オブジェクトを回転させる */
     [CodeInterpreter(BlockType = "object_rotate")]
     public class Object_Rotate_Cmdtor : EnumeratorCmdtor
@@ -55,18 +72,9 @@ namespace UBlockly
         }
     }
 
-    /* オブジェクトの色を変える */
-    [CodeInterpreter(BlockType = "object_color")]
-    public class Object_Color_cmdtor : EnumeratorCmdtor
-    {
-        protected override IEnumerator Execute(Block block, int id)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
     /* オブジェクトの大きさを変える */
     [CodeInterpreter(BlockType = "object_scale")]
-    public class Object_Scale_cmdtor : EnumeratorCmdtor
+    public class Object_Scale_Cmdtor : EnumeratorCmdtor
     {
         protected override IEnumerator Execute(Block block, int id)
         {
@@ -87,11 +95,31 @@ namespace UBlockly
         }
     }
 
+    [CodeInterpreter(BlockType = "object_tag")]
+    public class Object_Tag_Cmdtor : EnumeratorCmdtor
+    {
+        protected override IEnumerator Execute(Block block, int id)
+        {
+            DataStruct returnData = new DataStruct(false);
+
+            string op = block.GetFieldValue("object_type");
+
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                yield return p_Object.SetTag(op);
+            }
+            else
+            {
+                yield return GameManager.instance.curObject.SetTag(op);
+            }
+        }
+    }
     /// <summary>
     /// 
     /// </summary>
     [CodeInterpreter(BlockType = "object_target_check")]
-    public class Object_Search_cmdtor : EnumeratorCmdtor
+    public class Object_Search_Cmdtor : EnumeratorCmdtor
     {
         protected override IEnumerator Execute(Block block, int id)
         {

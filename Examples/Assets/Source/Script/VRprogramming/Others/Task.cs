@@ -51,6 +51,7 @@ public class Task : MonoBehaviour
         {
             isTaskRun = false;
             startTime = 0;
+            GameManager.instance.p_ObjectDict.Clear();
             Debug.Log("タスクを中止しました。");
         }
     }
@@ -73,6 +74,7 @@ public class Task : MonoBehaviour
         endTime = Time.time;
         Debug.Log("Task End: " + endTime);
         Debug.Log("Task Time: " + (endTime - startTime));
+        GameManager.instance.p_ObjectDict.Clear();
         isTaskRun = false;
         isTaskComplete = true;
         this.gameObject.SetActive(false);

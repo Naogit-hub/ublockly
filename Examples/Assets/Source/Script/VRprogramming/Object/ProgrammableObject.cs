@@ -19,7 +19,7 @@ public abstract class ProgrammableObject : MonoBehaviour
     private Vector3 initialPosition; // 初期位置
     private Quaternion initialRotation; // 初期回転
     private Vector3 initialScale; // 初期スケール
-    protected Rigidbody rb;
+    public Rigidbody rb;
     private int uniqueID;
     public int UniqueID { get { return uniqueID; } }
 
@@ -44,7 +44,7 @@ public abstract class ProgrammableObject : MonoBehaviour
         {
             menu.gameObject.SetActive(false);
         }
-        
+
         // if (directionCanvas != null)
         // {
         //     directionCanvas.gameObject.SetActive(false);
@@ -60,7 +60,7 @@ public abstract class ProgrammableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// オブジェクトを前方に動かす
+    /// オブジェクトを前方に動かす object_move
     /// </summary>
     /// <param name="amount">オブジェクトの移動量</param>
     /// <returns></returns>
@@ -90,8 +90,13 @@ public abstract class ProgrammableObject : MonoBehaviour
         transform.position = end;
     }
 
+    public IEnumerator StopMoving()
+    {
+        rb.velocity = Vector3.zero;
+        yield return null;
+    }
     /// <summary>
-    /// オブジェクトのスケールを変更する
+    /// オブジェクトのスケールを変更する object_scale
     /// </summary>
     /// <param name="num">何倍するか</param>
     /// <returns></returns>
@@ -128,7 +133,7 @@ public abstract class ProgrammableObject : MonoBehaviour
     }
 
     /// <summary>
-    /// オブジェクトを回転させる
+    /// オブジェクトを回転させる object_rotate
     /// </summary>
     /// <param name="amount">回転量</param>
     /// <returns></returns>
@@ -188,6 +193,12 @@ public abstract class ProgrammableObject : MonoBehaviour
         yield return null;
     }
 
+    /// <summary>
+    /// オブジェクト前方の物体を検知
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="tagName"></param>
+    /// <returns></returns>
     public virtual bool CheckNextTarget(float amount, string tagName)
     {
         RaycastHit hit;
@@ -195,6 +206,7 @@ public abstract class ProgrammableObject : MonoBehaviour
         {
             if (hit.collider.gameObject.tag == tagName)
             {
+                Debug.Log("HIT: " + tagName);
                 return true;
             }
             else
@@ -208,8 +220,11 @@ public abstract class ProgrammableObject : MonoBehaviour
         }
     }
 
-
-
+    public virtual IEnumerator SetTag(string tag)
+    {
+        gameObject.tag = tag;
+        yield return null;
+    }
 
     // XR Interaction Toolkitのホバー開始イベント
     public void HoverEnter()
@@ -298,6 +313,7 @@ public abstract class ProgrammableObject : MonoBehaviour
 
     public void ResetObject()
     {
+        rb.velocity = Vector3.zero;
         // 位置、回転、スケールを初期値に戻す
         transform.position = initialPosition;
         transform.rotation = initialRotation;
