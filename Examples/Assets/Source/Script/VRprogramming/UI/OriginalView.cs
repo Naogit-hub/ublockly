@@ -24,6 +24,8 @@ public class OriginalView : MonoBehaviour
     [SerializeField] protected Button m_DeleteWindowBtn;
     [SerializeField] protected Button m_ChangePositionBtn;
     [SerializeField] protected Button m_CancelBtn;
+    [SerializeField] protected Button m_AllRunBtn;
+    [SerializeField] protected Button m_AllCancelBtn;
 
     /// <summary>
     /// blockを登録するボタン
@@ -49,6 +51,17 @@ public class OriginalView : MonoBehaviour
         m_CancelBtn.onClick.AddListener(() =>
         {
             Cancel();
+        });
+
+        m_AllRunBtn.onClick.AddListener(() =>
+        {
+            AllRun();
+            BlocklyUI.UICanvas.gameObject.SetActive(false);
+        });
+
+        m_AllCancelBtn.onClick.AddListener(() =>
+        {
+            AllCancel();
         });
     }
 
@@ -107,6 +120,15 @@ public class OriginalView : MonoBehaviour
             Debug.Log("削除しました");
         }
     }
+
+    /// <summary>
+    /// すべてのIDを辞書から削除する
+    /// </summary>
+    public void AllCancel()
+    {
+        GameManager.instance.p_ObjectDict.Clear();
+    }
+
     /// <summary>
     /// ウィンドウを閉じる
     /// </summary>
@@ -119,6 +141,11 @@ public class OriginalView : MonoBehaviour
             GameManager.instance.SaveXml();
             GameManager.instance.curObject.DefaultXML = "";
         }
+    }
+
+    public void AllRun()
+    {
+        GameManager.instance.Run();
     }
 
     public void ChangePosition()

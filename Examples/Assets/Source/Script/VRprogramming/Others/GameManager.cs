@@ -16,6 +16,8 @@ public class GameManager : MonoBehaviour
     public Slider progressBar;
     public GameObject uiPos;
     public CD cdPrefab;
+
+    public List<Loop> loops;
     // public List<List<Block>> blockList = new List<List<Block>>();
 
     /// <summary>

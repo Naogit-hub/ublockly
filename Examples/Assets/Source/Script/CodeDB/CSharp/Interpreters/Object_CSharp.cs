@@ -100,8 +100,6 @@ namespace UBlockly
     {
         protected override IEnumerator Execute(Block block, int id)
         {
-            DataStruct returnData = new DataStruct(false);
-
             string op = block.GetFieldValue("object_type");
 
             if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
@@ -143,4 +141,43 @@ namespace UBlockly
             ReturnData(returnData);
         }
     }
+
+    [CodeInterpreter(BlockType = "object_option")]
+    public class Object_Option_Cmdtor : EnumeratorCmdtor
+    {
+        protected override IEnumerator Execute(Block block, int id)
+        {
+            string op = block.GetFieldValue("object_type");
+
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                yield return p_Object.SetOption(op);
+            }
+            else
+            {
+                yield return GameManager.instance.curObject.SetOption(op);
+            }
+        }
+    }
+
+    [CodeInterpreter(BlockType = "object_color")]
+    public class Object_Color_Cmdtor : EnumeratorCmdtor
+    {
+        protected override IEnumerator Execute(Block block, int id)
+        {
+            string op = block.GetFieldValue("color");
+
+            if (GameManager.instance.p_ObjectDict.TryGetValue(id, out ProgrammableObject p_Object))
+            {
+                Debug.Log("操作対象のオブジェクト: " + GameManager.instance.p_ObjectDict[id]);
+                yield return p_Object.SetColor(op);
+            }
+            else
+            {
+                yield return GameManager.instance.curObject.SetColor(op);
+            }
+        }
+    }
+
 }

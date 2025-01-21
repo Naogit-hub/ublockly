@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UBlockly.UGUI;
@@ -226,6 +227,75 @@ public abstract class ProgrammableObject : MonoBehaviour
         yield return null;
     }
 
+    public virtual IEnumerator SetOption(string option)
+    {
+        if (gameObject.TryGetComponent<Collider>(out Collider collider))
+        {
+            switch (option)
+            {
+                case "Trigger":
+                    collider.isTrigger = true;
+                    break;
+
+                case "notTrigger":
+                    collider.isTrigger = false;
+                    break;
+
+                default:
+                    break;
+
+            }
+        }
+        yield return null;
+    }
+
+    public IEnumerator SetColor(string color)
+    {
+        switch (color)
+        {
+            case "black":
+                GetComponent<Renderer>().material.color = Color.black;
+                break;
+
+            case "blue":
+                GetComponent<Renderer>().material.color = Color.blue;
+                break;
+
+            case "cyan":
+                GetComponent<Renderer>().material.color = Color.cyan;
+                break;
+
+            case "green":
+                GetComponent<Renderer>().material.color = Color.green;
+                break;
+
+            case "gray":
+                GetComponent<Renderer>().material.color = Color.gray;
+                break;
+
+            case "magenta":
+                GetComponent<Renderer>().material.color = Color.magenta;
+                break;
+
+            case "red":
+                GetComponent<Renderer>().material.color = Color.red;
+                break;
+
+            case "yellow":
+                GetComponent<Renderer>().material.color = Color.yellow;
+                break;
+
+            case "white":
+                GetComponent<Renderer>().material.color = Color.white;
+                break;
+
+            default:
+                break;
+        }
+
+        yield return null;
+    }
+
     // XR Interaction Toolkitのホバー開始イベント
     public void HoverEnter()
     {
@@ -237,6 +307,9 @@ public abstract class ProgrammableObject : MonoBehaviour
             {
                 GameManager.instance.progressBar.gameObject.SetActive(true); // 進捗バーを表示
                 GameManager.instance.progressBar.value = 0; // 初期値にリセット
+
+                Vector3 newPos = GameManager.instance.GetUIPos();
+                GameManager.instance.progressBar.transform.position = newPos;
             }
         }
     }
@@ -314,6 +387,7 @@ public abstract class ProgrammableObject : MonoBehaviour
     public void ResetObject()
     {
         rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
         // 位置、回転、スケールを初期値に戻す
         transform.position = initialPosition;
         transform.rotation = initialRotation;

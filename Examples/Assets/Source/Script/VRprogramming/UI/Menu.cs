@@ -103,8 +103,10 @@ public class Menu : MonoBehaviour
 
     public void Clone()
     {
-        if (!p_object.IsReadOnly)
-            Instantiate(this.p_object);
+        if (!p_object.IsReadOnly) {
+            ProgrammableObject cloneObject = Instantiate(this.p_object);
+            cloneObject.DefaultXML = "object" + uniqueId;
+        }
     }
 
     public void ChangeGravity()

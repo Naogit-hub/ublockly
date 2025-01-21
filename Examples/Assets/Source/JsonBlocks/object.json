@@ -57,10 +57,30 @@
         "type": "field_dropdown",
         "name": "object_type",
         "options": [
-          ["壁", "Wall"],
-          ["車", "Car"],
-          ["プレイヤー", "Player"],
-          ["敵", "Enemy"]
+          [
+            "なし",
+            "Untagged"
+          ],
+          [
+            "壁",
+            "Wall"
+          ],
+          [
+            "車",
+            "Car"
+          ],
+          [
+            "交差点の中心",
+            "Cross"
+          ],
+          [
+            "プレイヤー",
+            "Player"
+          ],
+          [
+            "敵",
+            "Enemy"
+          ]
         ]
       }
     ],
@@ -74,10 +94,75 @@
         "type": "field_dropdown",
         "name": "object_type",
         "options": [
-          ["壁", "Wall"],
-          ["車", "Car"],
-          ["プレイヤー", "Player"],
-          ["敵", "Enemy"]
+          [
+            "なし",
+            "Untagged"
+          ],
+          [
+            "壁",
+            "Wall"
+          ],
+          [
+            "車",
+            "Car"
+          ],
+          [
+            "交差点",
+            "Cross"
+          ],
+          [
+            "プレイヤー",
+            "Player"
+          ],
+          [
+            "敵",
+            "Enemy"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null
+  },
+  {
+    "type": "object_option",
+    "message0": "特性 %1 を設定する",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "object_type",
+        "options": [
+          [
+            "すり抜ける",
+            "Trigger"
+          ],
+          [
+            "すり抜けない",
+            "notTrigger"
+          ]
+        ]
+      }
+    ],
+    "previousStatement": null,
+    "nextStatement": null
+  },
+  {
+    "type": "object_color",
+    "message0": "色を %1 に変更する",
+    "args0": [
+      {
+        "type": "field_dropdown",
+        "name": "color",
+        "options": [
+          ["黒", "black"],
+          ["青", "blue"],
+          ["シアン", "cyan"],
+          ["灰", "gray"],
+          ["緑", "green"],
+          ["紫", "magenta"],
+          ["赤", "red"],
+          ["白", "white"],
+          ["黄", "yellow"]
         ]
       }
     ],
