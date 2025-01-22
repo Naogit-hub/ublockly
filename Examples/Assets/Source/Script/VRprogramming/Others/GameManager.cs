@@ -15,6 +15,8 @@ public class GameManager : MonoBehaviour
     public ProgrammableObject curObject = null;
     public Slider progressBar;
     public GameObject uiPos;
+    public GameObject workspace;
+
     public CD cdPrefab;
 
     public List<Loop> loops;
@@ -29,24 +31,6 @@ public class GameManager : MonoBehaviour
     public Dictionary<int, ProgrammableObject> p_ObjectDict = new Dictionary<int, ProgrammableObject>();
     public List<Workspace> workspaceList = new List<Workspace>();
     public TargetField targetField;
-
-    /// <summary>
-    /// 実行中のコマンド番号
-    /// </summary>
-    private int cmdNum = 0;
-
-    public int CmdNum
-    {
-        get
-        {
-            return cmdNum;
-        }
-        set
-        {
-            cmdNum = value;
-        }
-    }
-
     public const float SHOW_MENU_TIME = 1.5f;
     private void Awake()
     {

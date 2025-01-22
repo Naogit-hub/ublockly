@@ -56,7 +56,7 @@ public class OriginalView : MonoBehaviour
         m_AllRunBtn.onClick.AddListener(() =>
         {
             AllRun();
-            BlocklyUI.UICanvas.gameObject.SetActive(false);
+            GameManager.instance.workspace.SetActive(false);
         });
 
         m_AllCancelBtn.onClick.AddListener(() =>
@@ -134,7 +134,7 @@ public class OriginalView : MonoBehaviour
     /// </summary>
     public void DeleteWindow()
     {
-        BlocklyUI.UICanvas.gameObject.SetActive(false);
+        GameManager.instance.workspace.SetActive(false);
         // GameManager.instance.curObject.directionCanvas.gameObject.SetActive(false);
         if (!GameManager.instance.curObject.IsReadOnly)
         {
@@ -150,13 +150,14 @@ public class OriginalView : MonoBehaviour
 
     public void ChangePosition()
     {
-        Vector3 newPos = GameManager.instance.GetUIPos();
+        GameObject workspace = GameManager.instance.workspace;
 
-        Vector3 newRotate = BlocklyUI.UICanvas.transform.rotation.eulerAngles;
+        Vector3 newPos = GameManager.instance.GetUIPos();
+        Vector3 newRotate = workspace.transform.rotation.eulerAngles;
         newRotate.y = GameManager.instance.uiPos.transform.rotation.eulerAngles.y;
 
-        BlocklyUI.UICanvas.gameObject.SetActive(true);
-        BlocklyUI.UICanvas.transform.position = newPos;
-        BlocklyUI.UICanvas.transform.rotation = Quaternion.Euler(newRotate);
+        workspace.SetActive(true);
+        workspace.transform.position = newPos;
+        workspace.transform.rotation = Quaternion.Euler(newRotate);
     }
 }

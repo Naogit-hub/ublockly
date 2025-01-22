@@ -31,29 +31,20 @@ public class Menu : MonoBehaviour
     /// </summary>
     public void ShowWorkspace()
     {
+        GameObject workspace = GameManager.instance.workspace;
+
         // Vector3 thisPos = this.transform.position;
         UnityEngine.Vector3 newPos = GameManager.instance.GetUIPos();
-
-        UnityEngine.Vector3 newRotate = BlocklyUI.UICanvas.transform.rotation.eulerAngles;
+        UnityEngine.Vector3 newRotate = workspace.transform.rotation.eulerAngles;
         newRotate.y = GameManager.instance.uiPos.transform.rotation.eulerAngles.y;
 
-        // directionCanvas.gameObject.SetActive(true);
-
-        // if(GameManager.instance.curObject.directionCanvas != null)
-        // {
-        //     GameManager.instance.curObject.directionCanvas.gameObject.SetActive(false);
-        // }
-        // p_object.directionCanvas.gameObject.SetActive(true);
-        BlocklyUI.UICanvas.gameObject.SetActive(true);
-        BlocklyUI.UICanvas.transform.position = newPos;
-        BlocklyUI.UICanvas.transform.rotation = UnityEngine.Quaternion.Euler(newRotate);
+        workspace.SetActive(true);
+        workspace.transform.position = newPos;
+        workspace.transform.rotation = UnityEngine.Quaternion.Euler(newRotate);
 
         GameManager.instance.curUniqueID = uniqueId;
-        // Debug.Log("object" + uniqueId);
         GameManager.instance.curObject = p_object;
         GameManager.instance.targetField.SetTargetObject(p_object);
-
-        // Debug.Log("curObject: " + GameManager.instance.curObject);
 
         if (p_object.DefaultXML != "")
         {

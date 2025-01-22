@@ -40,7 +40,8 @@ namespace UBlockly.UGUI
             UICanvas = WorkspaceView.GetComponentInParent<Canvas>();
 
             // 見えなくする。
-            UICanvas.gameObject.SetActive(false);
+            // UICanvas.gameObject.SetActive(false);
+            GameManager.instance.workspace.SetActive(false);
         }
 
         public static void DestroyWorkspace()
