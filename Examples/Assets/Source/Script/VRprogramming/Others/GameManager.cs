@@ -68,6 +68,11 @@ public class GameManager : MonoBehaviour
             progressBar.maxValue = SHOW_MENU_TIME; // 進捗バーの最大値を設定
             progressBar.value = 0; // 初期値を0にする
         }
+
+        // var rectTransform = BlocklyUI.UICanvas.GetComponent<RectTransform>();
+        // var collider = BlocklyUI.UICanvas.gameObject.AddComponent<BoxCollider>();
+        // collider.size = new UnityEngine.Vector3(rectTransform.rect.width, rectTransform.rect.height, 0.1f); // サイズ調整
+        // collider.center = UnityEngine.Vector3.zero; // 中心をリセット
     }
     // public void RegisterObject(ProgrammableObject p)
     // {

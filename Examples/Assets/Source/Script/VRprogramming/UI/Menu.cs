@@ -19,7 +19,6 @@ public class Menu : MonoBehaviour
     public void SetId(int id)
     {
         uniqueId = id;
-        Debug.Log("id: " + uniqueId);
     }
 
     public void SetPObject(ProgrammableObject programmableObject)
@@ -50,20 +49,20 @@ public class Menu : MonoBehaviour
         BlocklyUI.UICanvas.transform.rotation = UnityEngine.Quaternion.Euler(newRotate);
 
         GameManager.instance.curUniqueID = uniqueId;
-        Debug.Log("object" + uniqueId);
+        // Debug.Log("object" + uniqueId);
         GameManager.instance.curObject = p_object;
         GameManager.instance.targetField.SetTargetObject(p_object);
 
-        Debug.Log("curObject: " + GameManager.instance.curObject);
+        // Debug.Log("curObject: " + GameManager.instance.curObject);
 
         if (p_object.DefaultXML != "")
         {
-            Debug.Log("デフォルトXMLが設定されている");
+            // Debug.Log("デフォルトXMLが設定されている");
             GameManager.instance.LoadXml(p_object.DefaultXML);
         }
         else
         {
-            Debug.Log("デフォルトXMLが設定されていない");
+            // Debug.Log("デフォルトXMLが設定されていない");
             GameManager.instance.LoadXml("object" + uniqueId);
         }
 
@@ -113,7 +112,5 @@ public class Menu : MonoBehaviour
     {
         bool tmp = p_object.rb.useGravity;
         p_object.rb.useGravity = !tmp;
-
-        Debug.Log("Gravity");
     }
 }

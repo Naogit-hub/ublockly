@@ -303,13 +303,18 @@ public abstract class ProgrammableObject : MonoBehaviour
         {
             hoverCoroutine = StartCoroutine(HoverTimerCoroutine());
 
-            if (GameManager.instance.progressBar != null)
+            Slider slider = GameManager.instance.progressBar;
+            if (slider != null)
             {
-                GameManager.instance.progressBar.gameObject.SetActive(true); // 進捗バーを表示
-                GameManager.instance.progressBar.value = 0; // 初期値にリセット
+                slider.gameObject.SetActive(true); // 進捗バーを表示
+                slider.value = 0; // 初期値にリセット
 
                 Vector3 newPos = GameManager.instance.GetUIPos();
-                GameManager.instance.progressBar.transform.position = newPos;
+                slider.transform.parent.gameObject.transform.position = newPos; 
+
+                Vector3 newRotate = gameObject.transform.rotation.eulerAngles;
+                newRotate.y = GameManager.instance.uiPos.transform.rotation.eulerAngles.y;
+                slider.transform.parent.gameObject.transform.rotation = Quaternion.Euler(newRotate);
             }
         }
     }
