@@ -20,7 +20,7 @@
   },
   {
     "type": "object_rotate",
-    "message0": "%1 だけ回転する",
+    "message0": "%1 度回転する",
     "args0": [
       {
         "type": "input_value",
